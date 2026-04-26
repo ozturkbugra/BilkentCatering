@@ -1,1 +1,6 @@
-<Solution />
+<Solution>
+  <Project Path="BilkentCatering.Business/BilkentCatering.Business.csproj" Id="113e78d1-981b-4bd3-9975-e5f5e2166a8c" />
+  <Project Path="BilkentCatering.DataAccess/BilkentCatering.DataAccess.csproj" Id="3934698c-d3d6-4481-8e3f-16f394dddaec" />
+  <Project Path="BilkentCatering.Entities/BilkentCatering.Entities.csproj" Id="b543afaa-b894-46bf-ac1b-cdb97faecd2c" />
+  <Project Path="BilkentCatering.UI/BilkentCatering.UI.csproj" Id="cfc6467d-f211-475e-8d8e-f5fb01237cf5" />
+</Solution>
