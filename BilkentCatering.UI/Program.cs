@@ -1,3 +1,4 @@
+using BilkentCatering.DataAccess.Context;
 using BilkentCatering.UI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,5 +44,11 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<BilkentCateringContext>();
+    DbInitializer.Seed(context);
+}
 
 app.Run();
