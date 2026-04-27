@@ -44,5 +44,10 @@ namespace BilkentCatering.DataAccess.Concrete
         {
             _context.SaveChanges();
         }
+
+        public T GetSingle()
+        {
+            return _dbSet.FirstOrDefault();
+        }
     }
 }
