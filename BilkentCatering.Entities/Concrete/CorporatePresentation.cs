@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BilkentCatering.Entities.Abstract;
 
 namespace BilkentCatering.Entities.Concrete
 {
-    internal class CorporatePresentation
+    public sealed class CorporatePresentation : BaseEntity
     {
+        public string PdfLink { get; set; }
     }
 }
