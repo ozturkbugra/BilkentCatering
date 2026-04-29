@@ -1,0 +1,186 @@
+/*--------------------------------------------------------------
+# Profile Page - EliteAdmin
+--------------------------------------------------------------*/
+
+.page-profile {
+
+  /* Profile Banner */
+  .profile-banner {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+  }
+
+  .profile-banner-content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: var(--spacing-lg) var(--spacing-xl);
+    position: relative;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+  }
+
+  .profile-banner-avatar-wrap {
+    flex-shrink: 0;
+  }
+
+  .profile-banner-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 4px solid var(--card-bg);
+    box-shadow: var(--shadow-md);
+  }
+
+  .profile-banner-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .profile-banner-name {
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    margin: 0;
+  }
+
+  .profile-banner-title {
+    font-size: 0.875rem;
+    color: var(--muted-color);
+    margin: 2px 0 var(--spacing-sm);
+  }
+
+  .profile-banner-socials {
+    display: flex;
+    gap: var(--spacing-sm);
+  }
+
+  .profile-social {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--background-color);
+    color: var(--muted-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .profile-social:hover {
+    background: var(--accent-color);
+    color: var(--contrast-color);
+  }
+
+  .profile-banner-actions {
+    flex-shrink: 0;
+    align-self: flex-end;
+    padding-bottom: var(--spacing-xs);
+  }
+
+  /* About */
+  .profile-about-text {
+    font-size: 0.875rem;
+    color: var(--muted-color);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .profile-detail-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .profile-detail-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 0.8125rem;
+    color: var(--default-color);
+  }
+
+  .profile-detail-item i {
+    color: var(--muted-color);
+    width: 18px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* Skills */
+  .profile-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+
+  .profile-skill {
+    padding: 4px 12px;
+    background: color-mix(in srgb, var(--accent-color), transparent 90%);
+    color: var(--accent-color);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  /* Section */
+  .profile-section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .profile-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .profile-section-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color-light);
+  }
+
+  /* Info Grid */
+  .profile-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md) var(--spacing-xl);
+  }
+
+  .profile-info-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted-color);
+    margin-bottom: 2px;
+  }
+
+  .profile-info-value {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--heading-color);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+  .page-profile {
+    .profile-banner-content {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0 var(--spacing-lg) var(--spacing-lg);
+    }
+
+    .profile-info-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

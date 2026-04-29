@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html lang="tr" data-bs-theme="dark">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - Bilkent Catering Admin</title>
+
+    <!-- Favicons -->
+    <link href="~/admin/assets/img/favicon.png" rel="icon">
+    <link href="~/admin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Vendor CSS -->
+    <link href="~/admin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
+    <link href="~/admin/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+
+    <!-- Main CSS -->
+    <link href="~/admin/assets/css/main.css" rel="stylesheet">
+
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <a href="/Admin/Dashboard" class="sidebar-brand">
+                <img src="~/admin/assets/img/logo.webp" alt="Logo" height="32">
+                <span>Bilkent Catering</span>
+            </a>
+            <button type="button" class="sidebar-toggle">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-search">
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" id="sidebarSearch" class="form-control" placeholder="Sayfa ara...">
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul class="sidebar-menu" id="sidebarMenu">
+
+                <!-- Dashboard -->
+                <li class="sidebar-item">
+                    <a href="/Admin/Dashboard" class="sidebar-link">
+                        <i class="bi bi-speedometer2"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <!-- Site Yönetimi -->
+                <li class="sidebar-divider">Site Yönetimi</li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/SiteSettings" class="sidebar-link">
+                        <i class="bi bi-gear"></i>
+                        <span>Site Ayarları</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/SiteImage" class="sidebar-link">
+                        <i class="bi bi-images"></i>
+                        <span>Site Resimleri</span>
+                    </a>
+                </li>
+
+                <!-- İçerik Yönetimi -->
+                <li class="sidebar-divider">İçerik Yönetimi</li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/AboutUs" class="sidebar-link">
+                        <i class="bi bi-info-circle"></i>
+                        <span>Hakkımızda</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/Services" class="sidebar-link">
+                        <i class="bi bi-briefcase"></i>
+                        <span>Hizmetler</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/Counter" class="sidebar-link">
+                        <i class="bi bi-123"></i>
+                        <span>Sayaç</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/Policy" class="sidebar-link">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Politikamız</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/CertificateAndDocument" class="sidebar-link">
+                        <i class="bi bi-file-earmark-text"></i>
+                        <span>Belgeler & Sertifikalar</span>
+                    </a>
+                </li>
+
+                <!-- Kalite -->
+                <li class="sidebar-divider">Kalite</li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/QualityManagement" class="sidebar-link">
+                        <i class="bi bi-award"></i>
+                        <span>Kalite Yönetimi</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/CustomerSatisfaction" class="sidebar-link">
+                        <i class="bi bi-emoji-smile"></i>
+                        <span>Müşteri Memnuniyeti</span>
+                    </a>
+                </li>
+
+                <!-- Medya -->
+                <li class="sidebar-divider">Medya</li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/CorporatePresentation" class="sidebar-link">
+                        <i class="bi bi-file-earmark-slides"></i>
+                        <span>Kurumsal Sunum</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/IntroductionVideo" class="sidebar-link">
+                        <i class="bi bi-camera-video"></i>
+                        <span>Tanıtım Filmi</span>
+                    </a>
+                </li>
+
+                <!-- İletişim -->
+                <li class="sidebar-divider">İletişim</li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/Contact" class="sidebar-link">
+                        <i class="bi bi-geo-alt"></i>
+                        <span>İletişim Bilgileri</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/Message" class="sidebar-link">
+                        <i class="bi bi-envelope"></i>
+                        <span>Mesajlar</span>
+                    </a>
+                </li>
+
+                <!-- İnsan Kaynakları -->
+                <li class="sidebar-divider">İnsan Kaynakları</li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/JobApplication" class="sidebar-link">
+                        <i class="bi bi-person-lines-fill"></i>
+                        <span>İş Başvuruları</span>
+                    </a>
+                </li>
+
+                <!-- Sistem -->
+                <li class="sidebar-divider">Sistem</li>
+
+                <li class="sidebar-item">
+                    <a href="/Admin/Admin" class="sidebar-link">
+                        <i class="bi bi-person-gear"></i>
+                        <span>Admin Kullanıcıları</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+
+        <!-- Topbar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button type="button" class="topbar-toggle" id="sidebarToggleBtn">
+                    <i class="bi bi-list"></i>
+                </button>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/Admin/Dashboard">Ana Sayfa</a></li>
+                        @if (ViewData["Breadcrumb"] != null)
+                        {
+                            <li class="breadcrumb-item active">@ViewData["Breadcrumb"]</li>
+                        }
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="topbar-right">
+                <!-- Bildirimler - okunmamış mesaj ve başvuru sayısı -->
+                <div class="topbar-item">
+                    <a href="/Admin/Message" class="topbar-link position-relative">
+                        <i class="bi bi-envelope fs-5"></i>
+                    </a>
+                </div>
+                <div class="topbar-item">
+                    <a href="/Admin/JobApplication" class="topbar-link position-relative">
+                        <i class="bi bi-person-lines-fill fs-5"></i>
+                    </a>
+                </div>
+
+                <!-- Kullanıcı -->
+                <div class="dropdown">
+                    <a href="#" class="topbar-link d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-5"></i>
+                        <span class="d-none d-md-inline">@User.Identity.Name</span>
+                        <i class="bi bi-chevron-down small"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="/Admin/Auth/Logout">
+                                <i class="bi bi-box-arrow-right me-2"></i>Çıkış Yap
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="page-content">
+            @RenderBody()
+        </main>
+
+    </div>
+
+    <!-- Vendor JS -->
+    <script src="~/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/admin/assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="~/admin/assets/vendor/quill/quill.js"></script>
+
+    <!-- Main JS -->
+    <script src="~/admin/assets/js/main.js"></script>
+    <script src="~/admin/assets/js/theme.js"></script>
+
+    <!-- Sidebar Arama -->
+    <script>
+            document.getElementById('sidebarSearch').addEventListener('input', function () {
+                const query = this.value.toLowerCase();
+                const items = document.querySelectorAll('.sidebar-item');
+                const dividers = document.querySelectorAll('.sidebar-divider');
+
+                items.forEach(item => {
+                    const text = item.querySelector('.sidebar-link span').textContent.toLowerCase();
+                    item.style.display = text.includes(query) ? '' : 'none';
+                });
+
+                // Divider'ları gizle/göster
+                dividers.forEach(divider => {
+                    let next = divider.nextElementSibling;
+                    let hasVisible = false;
+                    while (next && !next.classList.contains('sidebar-divider')) {
+                        if (next.style.display !== 'none') hasVisible = true;
+                        next = next.nextElementSibling;
+                    }
+                    divider.style.display = hasVisible ? '' : 'none';
+                });
+            });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,404 @@
+/*--------------------------------------------------------------
+# Dashboard - EliteAdmin
+--------------------------------------------------------------*/
+
+.page-dashboard {
+
+  /* Stat Cards */
+  .dash-stat-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    display: flex;
+    height: 100%;
+  }
+
+  .dash-stat-accent {
+    width: 4px;
+    flex-shrink: 0;
+  }
+
+  .dash-stat-body {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dash-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .dash-stat-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dash-stat-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .dash-stat-value {
+    display: block;
+    font-size: 1.375rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    line-height: 1.2;
+  }
+
+  .dash-stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+
+  .dash-stat-trend.positive {
+    color: var(--success-color);
+  }
+
+  .dash-stat-trend.negative {
+    color: var(--danger-color);
+  }
+
+  /* Chart Tabs */
+  .dash-chart-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--background-color);
+    border-radius: var(--radius-md);
+    padding: 3px;
+  }
+
+  .dash-chart-tab {
+    padding: 5px 14px;
+    border: none;
+    background: none;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--muted-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .dash-chart-tab.active {
+    background: var(--surface-color);
+    color: var(--heading-color);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .dash-chart-tab:hover:not(.active) {
+    color: var(--default-color);
+  }
+
+  /* Chart Summary */
+  .dash-chart-summary {
+    display: flex;
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .dash-chart-summary-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .dash-chart-summary-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  .dash-chart-summary-label {
+    font-size: 0.8125rem;
+    color: var(--muted-color);
+  }
+
+  .dash-chart-summary-value {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--heading-color);
+  }
+
+  /* Traffic Legend */
+  .dash-traffic-legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--border-color);
+  }
+
+  .dash-traffic-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+  }
+
+  .dash-traffic-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  .dash-traffic-label {
+    font-size: 0.8125rem;
+    color: var(--muted-color);
+    flex: 1;
+  }
+
+  .dash-traffic-value {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--heading-color);
+  }
+
+  /* Top Products */
+  .dash-products {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .dash-product-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .dash-product-img {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .dash-product-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dash-product-name {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .dash-product-sales {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted-color);
+  }
+
+  .dash-product-revenue {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    flex-shrink: 0;
+  }
+
+  /* Activity Timeline */
+  .dash-activity {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+  }
+
+  .dash-activity-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    position: relative;
+  }
+
+  .dash-activity-item::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 24px;
+    bottom: -8px;
+    width: 1px;
+    background: var(--border-color);
+  }
+
+  .dash-activity-item:last-child::before {
+    display: none;
+  }
+
+  .dash-activity-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+    margin-top: 5px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .dash-activity-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dash-activity-text {
+    font-size: 0.8125rem;
+    color: var(--default-color);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .dash-activity-time {
+    font-size: 0.75rem;
+    color: var(--light-color);
+  }
+
+  /* Team Members */
+  .dash-team {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .dash-team-member {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .dash-team-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .dash-team-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .dash-team-name {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+  }
+
+  .dash-team-role {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted-color);
+  }
+
+  .dash-team-status {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+    border: 2px solid var(--card-bg);
+  }
+
+  .dash-team-status.online {
+    background: var(--success-color);
+  }
+
+  .dash-team-status.away {
+    background: var(--warning-color);
+  }
+
+  .dash-team-status.offline {
+    background: var(--light-color);
+  }
+
+  /* Sales Targets */
+  .dash-targets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .dash-target-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .dash-target-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dash-target-label {
+    font-size: 0.8125rem;
+    color: var(--default-color);
+    font-weight: 500;
+  }
+
+  .dash-target-value {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--heading-color);
+  }
+
+  .dash-target-item .progress {
+    height: 6px;
+  }
+
+  /* View All Link */
+  .dash-link {
+    font-size: 0.8125rem;
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .dash-link:hover {
+    color: color-mix(in srgb, var(--accent-color), black 15%);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 767px) {
+  .page-dashboard {
+    .dash-chart-summary {
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .dash-stat-value {
+      font-size: 1.125rem;
+    }
+  }
+}

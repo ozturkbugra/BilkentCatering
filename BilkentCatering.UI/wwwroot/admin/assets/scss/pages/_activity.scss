@@ -1,0 +1,234 @@
+/*--------------------------------------------------------------
+# Activity Log Page - EliteAdmin
+--------------------------------------------------------------*/
+
+.page-activity {
+
+  /* Summary Stats */
+  .act-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .act-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+  }
+
+  .act-stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .act-stat-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .act-stat-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--heading-color);
+    line-height: 1.2;
+  }
+
+  .act-stat-label {
+    font-size: 0.75rem;
+    color: var(--muted-color);
+  }
+
+  /* Sessions */
+  .act-sessions {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .act-session {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--border-color-light);
+  }
+
+  .act-session:last-child {
+    border-bottom: none;
+  }
+
+  .act-session-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: var(--background-color);
+    color: var(--muted-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .act-session-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .act-session-device {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--heading-color);
+  }
+
+  .act-session-location {
+    font-size: 0.75rem;
+    color: var(--muted-color);
+  }
+
+  .act-session-badge {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  .act-session-badge.current {
+    background: var(--success-color-light);
+    color: var(--success-color);
+  }
+
+  /* Activity Log Items */
+  .act-date-header {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--background-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted-color);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border-color-light);
+  }
+
+  .act-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid var(--border-color-light);
+    transition: background-color var(--transition-fast);
+  }
+
+  .act-item:hover {
+    background: var(--background-color);
+  }
+
+  .act-item:last-child {
+    border-bottom: none;
+  }
+
+  .act-item-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    flex-shrink: 0;
+  }
+
+  .act-item-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .act-item-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+  }
+
+  .act-item-desc {
+    font-size: 0.8125rem;
+    color: var(--muted-color);
+    margin-top: 1px;
+  }
+
+  .act-item-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .act-item-time {
+    font-size: 0.75rem;
+    color: var(--muted-color);
+    white-space: nowrap;
+  }
+
+  .act-item-tag {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  .act-tag-security {
+    background: var(--warning-color-light);
+    color: var(--warning-color);
+  }
+
+  .act-tag-login {
+    background: color-mix(in srgb, var(--accent-color), transparent 85%);
+    color: var(--accent-color);
+  }
+
+  .act-tag-profile {
+    background: var(--info-color-light);
+    color: var(--info-color);
+  }
+
+  /* Load More */
+  .act-load-more {
+    padding: var(--spacing-md);
+    text-align: center;
+    border-top: 1px solid var(--border-color-light);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 575px) {
+  .page-activity {
+    .act-item {
+      flex-wrap: wrap;
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .act-item-meta {
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      padding-left: 52px;
+      margin-top: -4px;
+    }
+
+    .act-date-header {
+      padding: var(--spacing-xs) var(--spacing-md);
+    }
+  }
+}

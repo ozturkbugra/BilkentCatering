@@ -1,0 +1,85 @@
+/*--------------------------------------------------------------
+# Contact Page - EliteAdmin
+--------------------------------------------------------------*/
+
+.page-contact {
+
+  /* Info Cards */
+  .contact-info-card {
+    text-align: center;
+    height: 100%;
+  }
+
+  .contact-info-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    margin: 0 auto var(--spacing-md);
+  }
+
+  .contact-info-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .contact-info-text {
+    font-size: 0.8125rem;
+    color: var(--muted-color);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Map */
+  .contact-map {
+    width: 100%;
+    height: 220px;
+    border: 0;
+    border-radius: var(--radius-lg);
+    display: block;
+  }
+
+  /* FAQ */
+  .contact-faq {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .contact-faq-item {
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color-light);
+  }
+
+  .contact-faq-item:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .contact-faq-q {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+  }
+
+  .contact-faq-q i {
+    color: var(--accent-color);
+    font-size: 0.875rem;
+  }
+
+  .contact-faq-a {
+    font-size: 0.8125rem;
+    color: var(--muted-color);
+    line-height: 1.5;
+    margin: 0;
+    padding-left: calc(0.875rem + 0.5rem);
+  }
+}

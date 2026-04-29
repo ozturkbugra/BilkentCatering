@@ -1,0 +1,341 @@
+/*--------------------------------------------------------------
+# Settings Pages - EliteAdmin
+--------------------------------------------------------------*/
+
+/* Settings Navigation (shared across settings, notifications, activity) */
+.page-settings,
+.page-notifications,
+.page-activity {
+
+  .settings-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .settings-nav-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--default-color);
+    transition: all var(--transition-fast);
+  }
+
+  .settings-nav-item i {
+    font-size: 1.125rem;
+    width: 20px;
+    text-align: center;
+    color: var(--muted-color);
+    flex-shrink: 0;
+  }
+
+  .settings-nav-item:hover {
+    background: var(--background-color);
+    color: var(--heading-color);
+  }
+
+  .settings-nav-item.active {
+    background: color-mix(in srgb, var(--accent-color), transparent 90%);
+    color: var(--accent-color);
+  }
+
+  .settings-nav-item.active i {
+    color: var(--accent-color);
+  }
+
+  .settings-nav-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .settings-nav-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .settings-nav-desc {
+    font-size: 0.75rem;
+    color: var(--muted-color);
+    line-height: 1.3;
+  }
+
+  .settings-nav-item.active .settings-nav-desc {
+    color: color-mix(in srgb, var(--accent-color), transparent 40%);
+  }
+}
+
+/* Settings Account Page */
+.page-settings {
+
+  /* Theme Picker Cards */
+  .settings-theme-options {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .settings-theme-card {
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .settings-theme-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .settings-theme-preview {
+    display: flex;
+    height: 80px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 2px solid var(--border-color);
+    transition: border-color var(--transition-fast);
+  }
+
+  .settings-theme-card input:checked + .settings-theme-preview {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-color), transparent 80%);
+  }
+
+  .settings-theme-sidebar {
+    width: 20%;
+    flex-shrink: 0;
+  }
+
+  .settings-theme-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .settings-theme-header {
+    height: 12px;
+  }
+
+  .settings-theme-content {
+    flex: 1;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .settings-theme-block {
+    flex: 1;
+    border-radius: 2px;
+  }
+
+  /* Light theme preview colors */
+  .settings-theme-light .settings-theme-sidebar {
+    background: #1a1625;
+  }
+
+  .settings-theme-light .settings-theme-header {
+    background: #ffffff;
+    border-bottom: 1px solid #e7e5e4;
+  }
+
+  .settings-theme-light .settings-theme-content {
+    background: #faf8f6;
+  }
+
+  .settings-theme-light .settings-theme-block {
+    background: #ffffff;
+    border: 1px solid #e7e5e4;
+  }
+
+  /* Dark theme preview colors */
+  .settings-theme-dark .settings-theme-sidebar {
+    background: #13111a;
+  }
+
+  .settings-theme-dark .settings-theme-header {
+    background: #1e1b2e;
+    border-bottom: 1px solid #2e2a3d;
+  }
+
+  .settings-theme-dark .settings-theme-content {
+    background: #13111a;
+  }
+
+  .settings-theme-dark .settings-theme-block {
+    background: #1e1b2e;
+    border: 1px solid #2e2a3d;
+  }
+
+  /* System theme preview (split) */
+  .settings-theme-system {
+    background: linear-gradient(135deg, #faf8f6 50%, #13111a 50%);
+  }
+
+  .settings-theme-system .settings-theme-sidebar {
+    background: linear-gradient(180deg, #1a1625 50%, #13111a 50%);
+  }
+
+  .settings-theme-system .settings-theme-header {
+    background: linear-gradient(135deg, #ffffff 50%, #1e1b2e 50%);
+  }
+
+  .settings-theme-system .settings-theme-content {
+    background: transparent;
+  }
+
+  .settings-theme-system .settings-theme-block {
+    background: linear-gradient(135deg, #ffffff 50%, #1e1b2e 50%);
+    border: none;
+  }
+
+  .settings-theme-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--muted-color);
+    margin-top: var(--spacing-xs);
+    transition: color var(--transition-fast);
+  }
+
+  .settings-theme-card input:checked ~ .settings-theme-label {
+    color: var(--accent-color);
+    font-weight: 600;
+  }
+
+  /* Security Section */
+  .settings-security-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+  }
+
+  .settings-security-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .settings-security-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin: 0;
+  }
+
+  .settings-security-desc {
+    font-size: 0.8125rem;
+    color: var(--muted-color);
+    margin: 2px 0 0;
+  }
+
+  .settings-security-divider {
+    height: 1px;
+    background: var(--border-color-light);
+    margin: var(--spacing-md) 0;
+  }
+
+  .settings-password-form {
+    padding: var(--spacing-md) 0 0;
+  }
+
+  /* Danger Zone */
+  .settings-danger-card {
+    border-color: color-mix(in srgb, var(--danger-color), transparent 70%);
+  }
+
+  .settings-danger-card .card-header {
+    border-bottom-color: color-mix(in srgb, var(--danger-color), transparent 70%);
+  }
+
+  .settings-danger-card .card-title {
+    color: var(--danger-color);
+  }
+
+  .settings-danger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+  }
+
+  .settings-danger-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--heading-color);
+    margin: 0;
+  }
+
+  .settings-danger-desc {
+    font-size: 0.8125rem;
+    color: var(--muted-color);
+    margin: 2px 0 0;
+  }
+
+  /* Delete Modal Icon */
+  .settings-delete-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-full);
+    background: var(--danger-color-light);
+    color: var(--danger-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0 auto var(--spacing-md);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 991px) {
+  .page-settings,
+  .page-notifications,
+  .page-activity {
+    .settings-nav {
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 0;
+    }
+
+    .settings-nav-item {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .settings-nav-desc {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 575px) {
+  .page-settings {
+    .settings-theme-options {
+      flex-direction: column;
+    }
+
+    .settings-theme-preview {
+      height: 60px;
+    }
+
+    .settings-security-item {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+
+    .settings-danger-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--spacing-sm);
+    }
+  }
+}
