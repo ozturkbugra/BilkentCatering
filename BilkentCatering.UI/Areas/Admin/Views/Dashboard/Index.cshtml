@@ -1,0 +1,189 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["Breadcrumb"] = "Dashboard";
+}
+
+<div class="row g-4 mb-4">
+
+    <!-- Okunmamış Mesajlar -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="card-icon bg-primary bg-opacity-10 text-primary rounded-3 p-3">
+                        <i class="bi bi-envelope fs-4"></i>
+                    </div>
+                    <span class="badge bg-primary">Yeni</span>
+                </div>
+                <h3 class="mb-1">@ViewBag.UnreadMessages</h3>
+                <p class="text-muted mb-0">Okunmamış Mesaj</p>
+                <div class="mt-2">
+                    <small class="text-muted">Toplam: @ViewBag.TotalMessages mesaj</small>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/Admin/Message" class="text-decoration-none small">
+                    Tümünü Gör <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Okunmamış Başvurular -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="card-icon bg-success bg-opacity-10 text-success rounded-3 p-3">
+                        <i class="bi bi-person-lines-fill fs-4"></i>
+                    </div>
+                    <span class="badge bg-success">Yeni</span>
+                </div>
+                <h3 class="mb-1">@ViewBag.UnreadApplications</h3>
+                <p class="text-muted mb-0">Okunmamış Başvuru</p>
+                <div class="mt-2">
+                    <small class="text-muted">Toplam: @ViewBag.TotalApplications başvuru</small>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="/Admin/JobApplication" class="text-decoration-none small">
+                    Tümünü Gör <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hizmetler -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="card-icon bg-warning bg-opacity-10 text-warning rounded-3 p-3">
+                        <i class="bi bi-briefcase fs-4"></i>
+                    </div>
+                </div>
+                <h3 class="mb-1">@ViewBag.TotalServices</h3>
+                <p class="text-muted mb-0">Toplam Hizmet</p>
+            </div>
+            <div class="card-footer">
+                <a href="/Admin/Services" class="text-decoration-none small">
+                    Yönet <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Site Resimleri -->
+    <div class="col-xl-3 col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="card-icon bg-info bg-opacity-10 text-info rounded-3 p-3">
+                        <i class="bi bi-images fs-4"></i>
+                    </div>
+                </div>
+                <h3 class="mb-1">@ViewBag.TotalImages</h3>
+                <p class="text-muted mb-0">Site Resmi</p>
+            </div>
+            <div class="card-footer">
+                <a href="/Admin/SiteImage" class="text-decoration-none small">
+                    Yönet <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Son Mesajlar ve Başvurular -->
+<div class="row g-4">
+
+    <!-- Son Mesajlar -->
+    <div class="col-xl-6">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">Son Mesajlar</h5>
+                <a href="/Admin/Message" class="btn btn-sm btn-outline-primary">Tümü</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Ad Soyad</th>
+                                <th>Konu</th>
+                                <th>Tarih</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var message in ViewBag.RecentMessages)
+                            {
+                                <tr>
+                                    <td>@message.FullName</td>
+                                    <td>@message.Subject</td>
+                                    <td>@message.MessageDate.ToString("dd.MM.yyyy")</td>
+                                    <td>
+                                        @if (!message.IsRead)
+                                        {
+                                            <span class="badge bg-danger">Okunmadı</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Okundu</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Son Başvurular -->
+    <div class="col-xl-6">
+        <div class="card h-100">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="card-title mb-0">Son Başvurular</h5>
+                <a href="/Admin/JobApplication" class="btn btn-sm btn-outline-primary">Tümü</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Ad Soyad</th>
+                                <th>Pozisyon</th>
+                                <th>Tarih</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var application in ViewBag.RecentApplications)
+                            {
+                                <tr>
+                                    <td>@application.FullName</td>
+                                    <td>@application.Position</td>
+                                    <td>@application.ApplicationDate.ToString("dd.MM.yyyy")</td>
+                                    <td>
+                                        @if (!application.IsRead)
+                                        {
+                                            <span class="badge bg-danger">Okunmadı</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Okundu</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
