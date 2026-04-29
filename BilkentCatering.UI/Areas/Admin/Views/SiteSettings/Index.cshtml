@@ -76,37 +76,64 @@
                 <!-- Logo -->
                 <div class="col-md-4">
                     <label class="form-label">Logo</label>
-                    @if (Model?.Logo != null)
-                    {
-                        <div class="mb-2">
-                            <img src="@Model.Logo" alt="Logo" height="50" class="rounded">
+                    <div class="upload-dropzone upload-dropzone-image" id="logoDropzone">
+                        <input type="file" name="logoFile" id="logoFile" accept="image/*" hidden>
+                        <div class="upload-dropzone-content">
+                            <div class="upload-dropzone-icon">
+                                <i class="bi bi-image"></i>
+                            </div>
+                            <h5 class="upload-dropzone-title">Logo yükle</h5>
+                            <p class="upload-dropzone-text">PNG, JPG, WebP</p>
                         </div>
-                    }
-                    <input type="file" name="logoFile" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                    </div>
+                    <div class="upload-image-preview mt-2" id="logoPreview">
+                        @if (Model?.Logo != null)
+                        {
+                            <img src="@Model.Logo" alt="Logo" class="img-thumbnail" style="height:80px;">
+                        }
+                    </div>
                 </div>
 
                 <!-- Icon -->
                 <div class="col-md-4">
                     <label class="form-label">Icon (Favicon)</label>
-                    @if (Model?.Icon != null)
-                    {
-                        <div class="mb-2">
-                            <img src="@Model.Icon" alt="Icon" height="50" class="rounded">
+                    <div class="upload-dropzone upload-dropzone-image" id="iconDropzone">
+                        <input type="file" name="iconFile" id="iconFile" accept="image/*" hidden>
+                        <div class="upload-dropzone-content">
+                            <div class="upload-dropzone-icon">
+                                <i class="bi bi-image"></i>
+                            </div>
+                            <h5 class="upload-dropzone-title">Icon yükle</h5>
+                            <p class="upload-dropzone-text">PNG, ICO, WebP</p>
                         </div>
-                    }
-                    <input type="file" name="iconFile" class="form-control" accept=".jpg,.jpeg,.png,.webp,.ico">
+                    </div>
+                    <div class="upload-image-preview mt-2" id="iconPreview">
+                        @if (Model?.Icon != null)
+                        {
+                            <img src="@Model.Icon" alt="Icon" class="img-thumbnail" style="height:80px;">
+                        }
+                    </div>
                 </div>
 
                 <!-- Large Icon -->
                 <div class="col-md-4">
                     <label class="form-label">Büyük Icon</label>
-                    @if (Model?.LargeIcon != null)
-                    {
-                        <div class="mb-2">
-                            <img src="@Model.LargeIcon" alt="Large Icon" height="50" class="rounded">
+                    <div class="upload-dropzone upload-dropzone-image" id="largeIconDropzone">
+                        <input type="file" name="largeIconFile" id="largeIconFile" accept="image/*" hidden>
+                        <div class="upload-dropzone-content">
+                            <div class="upload-dropzone-icon">
+                                <i class="bi bi-image"></i>
+                            </div>
+                            <h5 class="upload-dropzone-title">Büyük Icon yükle</h5>
+                            <p class="upload-dropzone-text">PNG, JPG, WebP</p>
                         </div>
-                    }
-                    <input type="file" name="largeIconFile" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                    </div>
+                    <div class="upload-image-preview mt-2" id="largeIconPreview">
+                        @if (Model?.LargeIcon != null)
+                        {
+                            <img src="@Model.LargeIcon" alt="Large Icon" class="img-thumbnail" style="height:80px;">
+                        }
+                    </div>
                 </div>
 
                 <!-- Logo Görünsün mü -->
@@ -140,3 +167,51 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Her dropzone için preview
+        function setupDropzone(dropzoneId, inputId, previewId) {
+            const dropzone = document.getElementById(dropzoneId);
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+
+            dropzone.addEventListener('click', () => input.click());
+
+            dropzone.addEventListener('dragover', e => {
+                e.preventDefault();
+                dropzone.classList.add('dragover');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('dragover');
+            });
+
+            dropzone.addEventListener('drop', e => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) showPreview(file, preview);
+                const dt = new DataTransfer();
+                dt.items.add(file);
+                input.files = dt.files;
+            });
+
+            input.addEventListener('change', () => {
+                if (input.files[0]) showPreview(input.files[0], preview);
+            });
+        }
+
+        function showPreview(file, preview) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                preview.innerHTML = `<img src="${e.target.result}" class="img-thumbnail" style="height:80px;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        setupDropzone('logoDropzone', 'logoFile', 'logoPreview');
+        setupDropzone('iconDropzone', 'iconFile', 'iconPreview');
+        setupDropzone('largeIconDropzone', 'largeIconFile', 'largeIconPreview');
+    </script>
+}

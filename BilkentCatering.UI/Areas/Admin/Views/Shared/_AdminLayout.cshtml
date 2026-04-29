@@ -1,17 +1,20 @@
 ﻿<!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-bs-theme="dark">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewData["Title"] - Bilkent Catering Admin</title>
+    <title>@ViewData["Title"] - Bilkent Kurumsal Admin</title>
 
+    <!-- Favicons -->
     <link href="~/admin/assets/img/favicon.png" rel="icon">
     <link href="~/admin/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Vendor CSS Files -->
     <link href="~/admin/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="~/admin/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
     <link href="~/admin/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
@@ -20,23 +23,25 @@
     <link href="~/admin/assets/vendor/simple-datatables/style.css" rel="stylesheet">
     <link href="~/admin/assets/vendor/quill/quill.snow.css" rel="stylesheet">
 
+    <!-- Template Main CSS File -->
     <link href="~/admin/assets/css/main.css" rel="stylesheet">
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
 
 <body>
+    <!-- Header -->
     <header class="header">
         <div class="header-left">
             <a href="/Admin/Dashboard" class="header-logo">
-                <img src="~/admin/assets/img/logo.webp" alt="Bilkent Catering">
-                <span>Bilkent Catering</span>
+                <span>Bilkent Kurumsal</span>
             </a>
             <button class="sidebar-toggle" title="Toggle Sidebar">
                 <i class="bi bi-list"></i>
             </button>
         </div>
 
+        <!-- Desktop Search[cite: 1] -->
         <div class="header-search">
             <div class="search-form">
                 <i class="bi bi-search search-icon"></i>
@@ -45,6 +50,7 @@
         </div>
 
         <div class="header-right">
+            <!-- Desktop Actions[cite: 1] -->
             <div class="header-actions-desktop">
                 <div class="header-action-wrap">
                     <a href="/Admin/Message" class="header-action" title="Mesajlar">
@@ -56,13 +62,12 @@
                         <i class="bi bi-person-lines-fill"></i>
                     </a>
                 </div>
-                <!-- Tema Toggle -->
-                <div class="header-action-wrap">
-                    <button class="header-action theme-toggle" id="themeToggle" title="Tema Değiştir">
-                        <i class="bi bi-moon icon-dark"></i>
-                        <i class="bi bi-sun icon-light"></i>
-                    </button>
-                </div>
+
+                <!-- Theme Toggle (Desktop)[cite: 1] -->
+                <button class="header-action theme-toggle" title="Tema Değiştir">
+                    <i class="bi bi-moon icon-dark"></i>
+                    <i class="bi bi-sun icon-light"></i>
+                </button>
 
                 <span class="header-divider"></span>
 
@@ -85,7 +90,11 @@
                 </div>
             </div>
 
+            <!-- Mobile Actions[cite: 1] -->
             <div class="header-actions-mobile">
+                <button class="header-action search-toggle">
+                    <i class="bi bi-search"></i>
+                </button>
                 <button class="header-action mobile-menu-toggle">
                     <i class="bi bi-three-dots-vertical"></i>
                 </button>
@@ -93,10 +102,44 @@
         </div>
     </header>
 
+    <!-- Mobile Search[cite: 1] -->
+    <div class="mobile-search">
+        <div class="search-form">
+            <input type="search" id="mobileSearchInput" placeholder="Ara..." autocomplete="off">
+            <button type="button"><i class="bi bi-search"></i></button>
+        </div>
+    </div>
+
+    <!-- Mobile Header Menu (EKSİK OLAN KISIM BURASIYDI)[cite: 1] -->
+    <div class="mobile-header-menu">
+        <div class="mobile-header-menu-content">
+            <button class="mobile-menu-item theme-toggle">
+                <i class="bi bi-moon icon-dark"></i>
+                <i class="bi bi-sun icon-light"></i>
+                <span class="mobile-menu-label">Tema</span>
+            </button>
+            <a href="/Admin/Message" class="mobile-menu-item">
+                <i class="bi bi-envelope"></i>
+                <span class="mobile-menu-label">Mesajlar</span>
+            </a>
+            <a href="/Admin/JobApplication" class="mobile-menu-item">
+                <i class="bi bi-person-lines-fill"></i>
+                <span class="mobile-menu-label">Başvurular</span>
+            </a>
+            <a href="/Admin/Auth/Logout" class="mobile-menu-item mobile-menu-item-danger">
+                <i class="bi bi-box-arrow-right"></i>
+                <span class="mobile-menu-label">Çıkış Yap</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Sidebar[cite: 1] -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <a href="/Admin/Dashboard" class="sidebar-logo">
-                <span class="sidebar-logo-text">Bilkent Catering</span>
+                <div class="sidebar-logo-icon">
+                </div>
+                <span class="sidebar-logo-text">Bilkent Kurumsal</span>
             </a>
             <button class="sidebar-close">
                 <i class="bi bi-x-lg"></i>
@@ -105,7 +148,6 @@
 
         <nav class="sidebar-nav">
             <ul class="nav-menu" id="sidebarMenu">
-
                 <li class="nav-item">
                     <a class="nav-link" href="/Admin/Dashboard">
                         <span class="nav-icon"><i class="bi bi-speedometer2"></i></span>
@@ -115,108 +157,62 @@
 
                 <li class="nav-heading"><span>Site Yönetimi</span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/SiteSettings">
-                        <span class="nav-icon"><i class="bi bi-gear"></i></span>
-                        <span class="nav-text">Site Ayarları</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/SiteSettings"><span class="nav-icon"><i class="bi bi-gear"></i></span><span class="nav-text">Site Ayarları</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/SiteImage">
-                        <span class="nav-icon"><i class="bi bi-images"></i></span>
-                        <span class="nav-text">Site Resimleri</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/SiteImage"><span class="nav-icon"><i class="bi bi-images"></i></span><span class="nav-text">Site Resimleri</span></a>
                 </li>
 
                 <li class="nav-heading"><span>İçerik Yönetimi</span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/AboutUs">
-                        <span class="nav-icon"><i class="bi bi-info-circle"></i></span>
-                        <span class="nav-text">Hakkımızda</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/AboutUs"><span class="nav-icon"><i class="bi bi-info-circle"></i></span><span class="nav-text">Hakkımızda</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Services">
-                        <span class="nav-icon"><i class="bi bi-briefcase"></i></span>
-                        <span class="nav-text">Hizmetler</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/Services"><span class="nav-icon"><i class="bi bi-briefcase"></i></span><span class="nav-text">Hizmetler</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Counter">
-                        <span class="nav-icon"><i class="bi bi-123"></i></span>
-                        <span class="nav-text">Sayaç</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/Counter"><span class="nav-icon"><i class="bi bi-123"></i></span><span class="nav-text">Sayaç</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Policy">
-                        <span class="nav-icon"><i class="bi bi-shield-check"></i></span>
-                        <span class="nav-text">Politikamız</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/Policy"><span class="nav-icon"><i class="bi bi-shield-check"></i></span><span class="nav-text">Politikamız</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/CertificateAndDocument">
-                        <span class="nav-icon"><i class="bi bi-file-earmark-text"></i></span>
-                        <span class="nav-text">Belgeler & Sertifikalar</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/CertificateAndDocument"><span class="nav-icon"><i class="bi bi-file-earmark-text"></i></span><span class="nav-text">Sertifikalar</span></a>
                 </li>
 
                 <li class="nav-heading"><span>Kalite</span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/QualityManagement">
-                        <span class="nav-icon"><i class="bi bi-award"></i></span>
-                        <span class="nav-text">Kalite Yönetimi</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/QualityManagement"><span class="nav-icon"><i class="bi bi-award"></i></span><span class="nav-text">Kalite Yönetimi</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/CustomerSatisfaction">
-                        <span class="nav-icon"><i class="bi bi-emoji-smile"></i></span>
-                        <span class="nav-text">Müşteri Memnuniyeti</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/CustomerSatisfaction"><span class="nav-icon"><i class="bi bi-emoji-smile"></i></span><span class="nav-text">Müşteri Memnuniyeti</span></a>
                 </li>
 
                 <li class="nav-heading"><span>Medya</span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/CorporatePresentation">
-                        <span class="nav-icon"><i class="bi bi-file-earmark-slides"></i></span>
-                        <span class="nav-text">Kurumsal Sunum</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/CorporatePresentation"><span class="nav-icon"><i class="bi bi-file-earmark-slides"></i></span><span class="nav-text">Kurumsal Sunum</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/IntroductionVideo">
-                        <span class="nav-icon"><i class="bi bi-camera-video"></i></span>
-                        <span class="nav-text">Tanıtım Filmi</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/IntroductionVideo"><span class="nav-icon"><i class="bi bi-camera-video"></i></span><span class="nav-text">Tanıtım Filmi</span></a>
                 </li>
 
                 <li class="nav-heading"><span>İletişim</span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Contact">
-                        <span class="nav-icon"><i class="bi bi-geo-alt"></i></span>
-                        <span class="nav-text">İletişim Bilgileri</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/Contact"><span class="nav-icon"><i class="bi bi-geo-alt"></i></span><span class="nav-text">İletişim Bilgileri</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Message">
-                        <span class="nav-icon"><i class="bi bi-envelope"></i></span>
-                        <span class="nav-text">Mesajlar</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/Message"><span class="nav-icon"><i class="bi bi-envelope"></i></span><span class="nav-text">Mesajlar</span></a>
                 </li>
 
                 <li class="nav-heading"><span>İnsan Kaynakları</span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/JobApplication">
-                        <span class="nav-icon"><i class="bi bi-person-lines-fill"></i></span>
-                        <span class="nav-text">İş Başvuruları</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/JobApplication"><span class="nav-icon"><i class="bi bi-person-lines-fill"></i></span><span class="nav-text">İş Başvuruları</span></a>
                 </li>
 
                 <li class="nav-heading"><span>Sistem</span></li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Admin/Admin">
-                        <span class="nav-icon"><i class="bi bi-person-gear"></i></span>
-                        <span class="nav-text">Admin Kullanıcıları</span>
-                    </a>
+                    <a class="nav-link" href="/Admin/Admin"><span class="nav-icon"><i class="bi bi-person-gear"></i></span><span class="nav-text">Admin Kullanıcıları</span></a>
                 </li>
-
             </ul>
         </nav>
 
@@ -237,6 +233,7 @@
 
     <div class="sidebar-overlay"></div>
 
+    <!-- Main[cite: 1] -->
     <main class="main">
         <div class="main-content">
             @if (ViewData["Breadcrumb"] != null)
@@ -256,65 +253,74 @@
 
         <footer class="footer">
             <div class="footer-content text-center">
-                <div class="footer-copyright">
-                    &copy; @DateTime.Now.Year <strong>Bilkent Catering</strong>. Tüm Hakları Saklıdır.
-                </div>
+                &copy; @DateTime.Now.Year <strong>Bilkent Kurumsal</strong>. Tüm Hakları Saklıdır.
             </div>
         </footer>
     </main>
 
+    <!-- Vendor JS[cite: 1] -->
     <script src="~/admin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/admin/assets/vendor/simple-datatables/simple-datatables.js"></script>
     <script src="~/admin/assets/vendor/quill/quill.js"></script>
 
+    <!-- Main JS[cite: 1] -->
     <script src="~/admin/assets/js/theme.js"></script>
     <script src="~/admin/assets/js/main.js"></script>
 
     <script>
-            document.getElementById('headerSearch').addEventListener('input', function () {
-                const query = this.value.toLowerCase();
-                const items = document.querySelectorAll('.nav-item');
-                const headings = document.querySelectorAll('.nav-heading');
+            document.addEventListener('DOMContentLoaded', function () {
+                const html = document.documentElement;
 
-                if (query === '') {
-                    items.forEach(item => item.style.display = '');
-                    headings.forEach(heading => heading.style.display = '');
-                    return;
-                }
+                // 1. Tema Yönetimi
+                const savedTheme = localStorage.getItem('theme') || 'dark';
+                html.setAttribute('data-bs-theme', savedTheme);
 
-                items.forEach(item => {
-                    const text = item.querySelector('.nav-text') ? item.querySelector('.nav-text').textContent.toLowerCase() : '';
-                    item.style.display = text.includes(query) ? '' : 'none';
+                document.querySelectorAll('.theme-toggle').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        const next = html.getAttribute('data-bs-theme') === 'dark' ? 'light' : 'dark';
+                        html.setAttribute('data-bs-theme', next);
+                        localStorage.setItem('theme', next);
+                    });
                 });
 
-                headings.forEach(heading => {
-                    let next = heading.nextElementSibling;
-                    let hasVisible = false;
-                    while (next && !next.classList.contains('nav-heading')) {
-                        if (next.style.display !== 'none') hasVisible = true;
-                        next = next.nextElementSibling;
-                    }
-                    heading.style.display = hasVisible ? '' : 'none';
+                // 2. Türkçe Karakter Duyarlı Arama
+                const searchInputs = [document.getElementById('headerSearch'), document.getElementById('mobileSearchInput')];
+            
+                searchInputs.forEach(input => {
+                    if(!input) return;
+
+                    input.addEventListener('input', function () {
+                        // toLocaleLowerCase('tr-TR') ile İ-i ve I-ı sorununu çözüyoruz
+                        const query = this.value.toLocaleLowerCase('tr-TR').trim();
+                        const items = document.querySelectorAll('.nav-item');
+                        const headings = document.querySelectorAll('.nav-heading');
+
+                        // Menü öğelerini filtrele
+                        items.forEach(item => {
+                            const navText = item.querySelector('.nav-text');
+                            const text = navText ? navText.textContent.toLocaleLowerCase('tr-TR') : '';
+                            item.style.display = text.includes(query) ? '' : 'none';
+                        });
+
+                        // Başlıkları kontrol et (Altında görünür öğe yoksa başlığı gizle)
+                        headings.forEach(heading => {
+                            let next = heading.nextElementSibling;
+                            let hasVisible = false;
+                        
+                            while (next && !next.classList.contains('nav-heading')) {
+                                if (next.classList.contains('nav-item') && next.style.display !== 'none') {
+                                    hasVisible = true;
+                                    break;
+                                }
+                                next = next.nextElementSibling;
+                            }
+                            heading.style.display = (hasVisible || query === '') ? '' : 'none';
+                        });
+                    });
                 });
-
-                            // Tema Toggle - localStorage'da sakla
-            const themeToggle = document.getElementById('themeToggle');
-            const html = document.documentElement;
-
-            // Sayfa açılınca kayıtlı temayı uygula
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            html.setAttribute('data-bs-theme', savedTheme);
-
-            themeToggle.addEventListener('click', function () {
-                const current = html.getAttribute('data-bs-theme');
-                const next = current === 'dark' ? 'light' : 'dark';
-                html.setAttribute('data-bs-theme', next);
-                localStorage.setItem('theme', next);
-            });
             });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
-
 </body>
 </html>
