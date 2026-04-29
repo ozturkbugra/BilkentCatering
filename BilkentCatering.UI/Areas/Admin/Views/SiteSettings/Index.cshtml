@@ -1,0 +1,142 @@
+﻿@model SiteSettings
+
+@{
+    ViewData["Title"] = "Site Ayarları";
+    ViewData["Breadcrumb"] = "Site Ayarları";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Site Ayarları</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/Admin/SiteSettings/Save" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-4">
+
+                <!-- Firma Adı -->
+                <div class="col-md-6">
+                    <label class="form-label">Firma Adı</label>
+                    <input type="text" name="CompanyName" class="form-control"
+                           value="@Model?.CompanyName" placeholder="Firma adını girin">
+                </div>
+
+                <!-- Slogan -->
+                <div class="col-md-6">
+                    <label class="form-label">Slogan</label>
+                    <input type="text" name="Slogan" class="form-control"
+                           value="@Model?.Slogan" placeholder="Slogan girin">
+                </div>
+
+                <!-- Açıklama -->
+                <div class="col-md-12">
+                    <label class="form-label">Açıklama</label>
+                    <textarea name="Description" class="form-control" rows="3"
+                              placeholder="Kısa açıklama girin">@Model?.Description</textarea>
+                </div>
+
+                <!-- SEO Title -->
+                <div class="col-md-6">
+                    <label class="form-label">SEO Title</label>
+                    <input type="text" name="Title" class="form-control"
+                           value="@Model?.Title" placeholder="Sayfa başlığı">
+                </div>
+
+                <!-- SEO Meta Description -->
+                <div class="col-md-6">
+                    <label class="form-label">Meta Description</label>
+                    <input type="text" name="MetaDescription" class="form-control"
+                           value="@Model?.MetaDescription" placeholder="Meta açıklama">
+                </div>
+
+                <!-- SEO Keywords -->
+                <div class="col-md-12">
+                    <label class="form-label">Meta Keywords</label>
+                    <input type="text" name="MetaKeyword" class="form-control"
+                           value="@Model?.MetaKeyword" placeholder="Anahtar kelimeler, virgülle ayırın">
+                </div>
+
+                <!-- Logo -->
+                <div class="col-md-4">
+                    <label class="form-label">Logo</label>
+                    @if (Model?.Logo != null)
+                    {
+                        <div class="mb-2">
+                            <img src="@Model.Logo" alt="Logo" height="50" class="rounded">
+                        </div>
+                    }
+                    <input type="file" name="logoFile" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                </div>
+
+                <!-- Icon -->
+                <div class="col-md-4">
+                    <label class="form-label">Icon (Favicon)</label>
+                    @if (Model?.Icon != null)
+                    {
+                        <div class="mb-2">
+                            <img src="@Model.Icon" alt="Icon" height="50" class="rounded">
+                        </div>
+                    }
+                    <input type="file" name="iconFile" class="form-control" accept=".jpg,.jpeg,.png,.webp,.ico">
+                </div>
+
+                <!-- Large Icon -->
+                <div class="col-md-4">
+                    <label class="form-label">Büyük Icon</label>
+                    @if (Model?.LargeIcon != null)
+                    {
+                        <div class="mb-2">
+                            <img src="@Model.LargeIcon" alt="Large Icon" height="50" class="rounded">
+                        </div>
+                    }
+                    <input type="file" name="largeIconFile" class="form-control" accept=".jpg,.jpeg,.png,.webp">
+                </div>
+
+                <!-- Logo Görünsün mü -->
+                <div class="col-md-6">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="IsLogoVisible"
+                               id="isLogoVisible" value="true"
+                        @(Model?.IsLogoVisible == true ? "checked" : "")>
+                        <label class="form-check-label" for="isLogoVisible">Logo Görünsün</label>
+                    </div>
+                </div>
+
+                <!-- Firma Adı Görünsün mü -->
+                <div class="col-md-6">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" name="IsCompanyNameVisible"
+                               id="isCompanyNameVisible" value="true"
+                        @(Model?.IsCompanyNameVisible == true ? "checked" : "")>
+                        <label class="form-check-label" for="isCompanyNameVisible">Firma Adı Görünsün</label>
+                    </div>
+                </div>
+
+                <!-- Kaydet -->
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Kaydet
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
