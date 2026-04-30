@@ -1,0 +1,259 @@
+﻿@model List<BilkentCatering.Entities.Concrete.Service>
+
+@{
+    ViewData["Title"] = "Hizmetler";
+    ViewData["Breadcrumb"] = "Hizmetler";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<!-- Liste -->
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title mb-0">Hizmetler</h5>
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="bi bi-plus-circle me-1"></i>Yeni Hizmet
+        </button>
+    </div>
+    <div class="card-body">
+        <table id="servicesTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Resim</th>
+                    <th>Başlık</th>
+                    <th>Eklenme Tarihi</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>
+                            @if (item.ImageUrl != null)
+                            {
+                                <img src="@item.ImageUrl" style="width:50px;height:50px;object-fit:cover;" class="rounded">
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+                        <td>@item.Title</td>
+                        <td>@item.CreatedDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning"
+                                    onclick="openEditModal(@item.Id)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger"
+                                    onclick="openDeleteModal(@item.Id)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Hizmet Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/Admin/Services/Add" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Başlık</label>
+                            <input type="text" name="Title" class="form-control" placeholder="Hizmet başlığı" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Açıklama</label>
+                            <textarea name="Description" class="form-control" rows="3" placeholder="Hizmet açıklaması girin"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Resim</label>
+                            <div class="upload-dropzone upload-dropzone-image" id="addDropzone">
+                                <input type="file" name="imageFile" id="addImageFile" accept="image/*" hidden>
+                                <div class="upload-dropzone-content">
+                                    <div class="upload-dropzone-icon"><i class="bi bi-image"></i></div>
+                                    <h5 class="upload-dropzone-title">Resim yükle</h5>
+                                    <p class="upload-dropzone-text">PNG, JPG, WebP</p>
+                                </div>
+                            </div>
+                            <div class="upload-image-preview mt-2" id="addImagePreview"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hizmet Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/Admin/Services/Edit" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Id" id="editId">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Başlık</label>
+                            <input type="text" name="Title" id="editTitle" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Açıklama</label>
+                            <textarea name="Description" id="editDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Resim</label>
+                            <div class="upload-dropzone upload-dropzone-image" id="editDropzone">
+                                <input type="file" name="imageFile" id="editImageFile" accept="image/*" hidden>
+                                <div class="upload-dropzone-content">
+                                    <div class="upload-dropzone-icon"><i class="bi bi-image"></i></div>
+                                    <h5 class="upload-dropzone-title">Yeni resim yükle</h5>
+                                    <p class="upload-dropzone-text">PNG, JPG, WebP</p>
+                                </div>
+                            </div>
+                            <div class="upload-image-preview mt-2" id="editImagePreview"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Güncelle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Hizmeti Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu hizmeti silmek istediğinize emin misiniz?</p>
+            </div>
+            <form method="post" action="/Admin/Services/Delete">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="deleteId">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Sil
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // DataTable
+        const tableElement = document.querySelector("#servicesTable");
+        if (tableElement) new simpleDatatables.DataTable(tableElement);
+
+        // Dropzone
+        function setupDropzone(dropzoneId, inputId, previewId) {
+            const dropzone = document.getElementById(dropzoneId);
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+
+            if (!dropzone || !input) return;
+
+            dropzone.onclick = () => input.click();
+            dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('dragover'); };
+            dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+            dropzone.ondrop = (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    input.files = e.dataTransfer.files;
+                    showPreview(file, preview);
+                }
+            };
+            input.onchange = () => {
+                if (input.files[0]) showPreview(input.files[0], preview);
+            };
+        }
+
+        function showPreview(file, preview) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                preview.innerHTML = `<img src="${e.target.result}" class="img-thumbnail" style="height:80px;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        document.getElementById('addModal').addEventListener('shown.bs.modal', function () {
+            setupDropzone('addDropzone', 'addImageFile', 'addImagePreview');
+        });
+
+        document.getElementById('editModal').addEventListener('shown.bs.modal', function () {
+            setupDropzone('editDropzone', 'editImageFile', 'editImagePreview');
+        });
+
+        function openEditModal(id) {
+            fetch(`/Admin/Services/GetById?id=${id}`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('editId').value = data.id;
+                    document.getElementById('editTitle').value = data.title;
+                    document.getElementById('editDescription').value = data.description || '';
+                    const preview = document.getElementById('editImagePreview');
+                    preview.innerHTML = data.imageUrl
+                        ? `<img src="${data.imageUrl}" class="img-thumbnail" style="height:80px;">`
+                        : '';
+                    new bootstrap.Modal(document.getElementById('editModal')).show();
+                });
+        }
+
+        function openDeleteModal(id) {
+            document.getElementById('deleteId').value = id;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+}
