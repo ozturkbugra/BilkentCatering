@@ -1,0 +1,59 @@
+﻿@model Counter
+
+@{
+    ViewData["Title"] = "Sayaç";
+    ViewData["Breadcrumb"] = "Sayaç";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Sayaç Bilgileri</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/Admin/Counter/Save">
+            @Html.AntiForgeryToken()
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <label class="form-label">Şehir Sayısı</label>
+                    <input type="number" name="CityCount" class="form-control"
+                           value="@Model?.CityCount" placeholder="0" min="0">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Günlük Üretim Sayısı</label>
+                    <input type="number" name="DailyProductionCount" class="form-control"
+                           value="@Model?.DailyProductionCount" placeholder="0" min="0">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Güvenlik Oranı (%)</label>
+                    <input type="number" name="SafetyRate" class="form-control"
+                           value="@Model?.SafetyRate" placeholder="100" min="0" max="100">
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Kaydet
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
