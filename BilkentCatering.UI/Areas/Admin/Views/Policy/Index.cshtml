@@ -1,0 +1,124 @@
+﻿@model BilkentCatering.Entities.Concrete.Policy
+
+@{
+    ViewData["Title"] = "Politikamız";
+    ViewData["Breadcrumb"] = "Politikamız";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Politikamız</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/Admin/Policy/Save" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="row g-4">
+
+                <div class="col-md-12">
+                    <label class="form-label">Başlık</label>
+                    <input type="text" name="Title" class="form-control"
+                           value="@Model?.Title" placeholder="Başlık girin">
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Kısa Açıklama</label>
+                    <textarea name="ShortDescription" class="form-control" rows="3"
+                              placeholder="Kısa açıklama girin">@Model?.ShortDescription</textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Uzun Açıklama</label>
+                    <div id="quillEditor" style="height:300px;">@Html.Raw(Model?.LongDescription)</div>
+                    <input type="hidden" name="LongDescription" id="longDescriptionInput">
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Resim</label>
+                    <div class="upload-dropzone upload-dropzone-image" id="imageDropzone">
+                        <input type="file" name="imageFile" id="imageFile" accept="image/*" hidden>
+                        <div class="upload-dropzone-content">
+                            <div class="upload-dropzone-icon"><i class="bi bi-image"></i></div>
+                            <h5 class="upload-dropzone-title">Resim yükle</h5>
+                            <p class="upload-dropzone-text">PNG, JPG, WebP</p>
+                        </div>
+                    </div>
+                    <div class="upload-image-preview mt-2" id="imagePreview">
+                        @if (Model?.ImageUrl != null)
+                        {
+                            <img src="@Model.ImageUrl" alt="Resim" class="img-thumbnail" style="height:120px;">
+                        }
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Kaydet
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const quill = new Quill('#quillEditor', {
+            theme: 'snow',
+            placeholder: 'Uzun açıklama girin...',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['link'], ['clean']
+                ]
+            }
+        });
+
+        document.querySelector('form').addEventListener('submit', function () {
+            document.getElementById('longDescriptionInput').value = quill.root.innerHTML;
+        });
+
+        const dropzone = document.getElementById('imageDropzone');
+        const input = document.getElementById('imageFile');
+        const preview = document.getElementById('imagePreview');
+
+        dropzone.onclick = () => input.click();
+        dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('dragover'); };
+        dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                input.files = e.dataTransfer.files;
+                showPreview(file);
+            }
+        };
+        input.onchange = () => { if (input.files[0]) showPreview(input.files[0]); };
+
+        function showPreview(file) {
+            const reader = new FileReader();
+            reader.onload = e => {
+                preview.innerHTML = `<img src="${e.target.result}" class="img-thumbnail" style="height:120px;">`;
+            };
+            reader.readAsDataURL(file);
+        }
+    </script>
+}
