@@ -1,0 +1,275 @@
+﻿@model List<BilkentCatering.Entities.Concrete.CertificateAndDocument>
+
+@{
+    ViewData["Title"] = "Belgeler & Sertifikalar";
+    ViewData["Breadcrumb"] = "Belgeler & Sertifikalar";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title mb-0">Belgeler & Sertifikalar</h5>
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="bi bi-plus-circle me-1"></i>Yeni Ekle
+        </button>
+    </div>
+    <div class="card-body">
+        <table id="certTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Başlık</th>
+                    <th>Açıklama</th>
+                    <th>PDF</th>
+                    <th>Eklenme Tarihi</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Title</td>
+                        <td>@(item.Description?.Length > 60 ? item.Description.Substring(0, 60) + "..." : item.Description)</td>
+                        <td>
+                            @if (item.PdfLink != null)
+                            {
+                                <a href="@item.PdfLink" target="_blank" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-file-earmark-pdf"></i> Görüntüle
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">-</span>
+                            }
+                        </td>
+                        <td>@item.CreatedDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="openEditModal(@item.Id)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="openDeleteModal(@item.Id)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Belge/Sertifika Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/Admin/CertificateAndDocument/Add" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Başlık</label>
+                            <input type="text" name="Title" class="form-control" placeholder="Belge/Sertifika başlığı" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Açıklama</label>
+                            <textarea name="Description" class="form-control" rows="3" placeholder="Açıklama girin"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">PDF Dosyası</label>
+                            <div class="upload-dropzone" id="addDropzone">
+                                <input type="file" name="pdfFile" id="addPdfFile" accept=".pdf" hidden>
+                                <div class="upload-dropzone-content">
+                                    <div class="upload-dropzone-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                                    <h5 class="upload-dropzone-title">PDF yükle</h5>
+                                    <p class="upload-dropzone-text">Sadece PDF formatı</p>
+                                </div>
+                            </div>
+                            <div class="mt-2" id="addPdfPreview"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Belge/Sertifika Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/Admin/CertificateAndDocument/Edit" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Id" id="editId">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Başlık</label>
+                            <input type="text" name="Title" id="editTitle" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Açıklama</label>
+                            <textarea name="Description" id="editDescription" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">PDF Dosyası</label>
+                            <div class="upload-dropzone" id="editDropzone">
+                                <input type="file" name="pdfFile" id="editPdfFile" accept=".pdf" hidden>
+                                <div class="upload-dropzone-content">
+                                    <div class="upload-dropzone-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                                    <h5 class="upload-dropzone-title">Yeni PDF yükle</h5>
+                                    <p class="upload-dropzone-text">Sadece PDF formatı</p>
+                                </div>
+                            </div>
+                            <div class="mt-2" id="editPdfPreview"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Güncelle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Belgeyi Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu belgeyi/sertifikayı silmek istediğinize emin misiniz?</p>
+            </div>
+            <form method="post" action="/Admin/CertificateAndDocument/Delete">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="deleteId">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Sil
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        new simpleDatatables.DataTable("#certTable", {
+            searchable: true,
+            fixedHeight: false,
+            perPage: 10,
+            labels: {
+                placeholder: "Ara...",
+                perPage: "{select} kayıt göster",
+                noRows: "Kayıt bulunamadı",
+                info: "{start} - {end} / {rows} kayıt",
+            }
+        });
+
+        function setupDropzone(dropzoneId, inputId, previewId) {
+            const dropzone = document.getElementById(dropzoneId);
+            const input = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+
+            if (!dropzone || !input) return;
+
+            dropzone.onclick = () => input.click();
+            dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('dragover'); };
+            dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+            dropzone.ondrop = (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('dragover');
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    input.files = e.dataTransfer.files;
+                    showPdfPreview(file, preview);
+                }
+            };
+            input.onchange = () => {
+                if (input.files[0]) showPdfPreview(input.files[0], preview);
+            };
+        }
+
+        function showPdfPreview(file, preview) {
+            preview.innerHTML = `
+                <div class="d-flex align-items-center gap-2 p-2 border rounded">
+                    <i class="bi bi-file-earmark-pdf text-danger fs-4"></i>
+                    <span>${file.name}</span>
+                </div>`;
+        }
+
+        document.getElementById('addModal').addEventListener('shown.bs.modal', function () {
+            setupDropzone('addDropzone', 'addPdfFile', 'addPdfPreview');
+        });
+
+        document.getElementById('editModal').addEventListener('shown.bs.modal', function () {
+            setupDropzone('editDropzone', 'editPdfFile', 'editPdfPreview');
+        });
+
+        function openEditModal(id) {
+            fetch(`/Admin/CertificateAndDocument/GetById?id=${id}`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('editId').value = data.id;
+                    document.getElementById('editTitle').value = data.title;
+                    document.getElementById('editDescription').value = data.description || '';
+                    const preview = document.getElementById('editPdfPreview');
+                    preview.innerHTML = data.pdfLink
+                        ? `<div class="d-flex align-items-center gap-2 p-2 border rounded">
+                            <i class="bi bi-file-earmark-pdf text-danger fs-4"></i>
+                            <a href="${data.pdfLink}" target="_blank">Mevcut PDF</a>
+                           </div>`
+                        : '';
+                    new bootstrap.Modal(document.getElementById('editModal')).show();
+                });
+        }
+
+        function openDeleteModal(id) {
+            document.getElementById('deleteId').value = id;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
