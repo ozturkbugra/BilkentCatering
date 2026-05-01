@@ -1,0 +1,19 @@
+﻿@model SiteSettings
+
+@{
+    // Eğer veritabanından resim gelmezse varsayılan bir görsel ayarlayabilirsiniz
+    var bgImage = !string.IsNullOrEmpty(Model.PageTitleImage)
+                  ? Model.PageTitleImage
+                  : "/img/slider/slider-13.webp";
+}
+
+<div class="page-title" data-aos="fade" style="background-image: url('@bgImage');">
+    <div class="container">
+        <nav class="breadcrumbs">
+            <ol>
+                <li><a href="/">Ana Sayfa</a></li>
+                <li class="current">@ViewBag.PageTitle</li>
+            </ol>
+        </nav>
+    </div>
+</div>

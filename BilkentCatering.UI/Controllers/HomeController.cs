@@ -17,6 +17,8 @@ namespace BilkentCatering.UI.Controllers
             _siteImageService = siteImageService;
         }
 
+        [Route("")]
+        [Route("ana-sayfa")]
         public IActionResult Index()
         {
             ViewData["Title"] = "Ana Sayfa";

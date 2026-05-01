@@ -72,7 +72,9 @@
                         }
                         @if (ViewBag.Contact?.WhatsApp != null)
                         {
-                            <a href="https://wa.me/@ViewBag.Contact.WhatsApp" target="_blank">
+                            var wpnumber = "9" + ViewBag.Contact.WhatsApp;
+
+                            <a href="https://wa.me/@wpnumber" target="_blank">
                                 <i class="bi bi-whatsapp"></i>
                             </a>
                         }

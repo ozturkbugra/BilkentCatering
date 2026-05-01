@@ -869,7 +869,6 @@ textarea::placeholder {
 .page-title {
   position: relative;
   /* Buraya istediğin arka plan resmini koy */
-  background-image: url('../img/slider/slider-13.webp'); 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
