@@ -1,0 +1,213 @@
+﻿@model List<Message>
+
+@{
+    ViewData["Title"] = "Mesajlar";
+    ViewData["Breadcrumb"] = "Mesajlar";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title mb-0">Mesajlar</h5>
+        <span class="badge bg-danger">
+            @Model.Count(x => !x.IsRead) Okunmamış
+        </span>
+    </div>
+    <div class="card-body">
+        <table id="messageTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ad Soyad</th>
+                    <th>Telefon</th>
+                    <th>E-posta</th>
+                    <th>Konu</th>
+                    <th>Tarih</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="@(!item.IsRead ? "table-warning" : "")">
+                        <td>@item.Id</td>
+                        <td>@item.FullName</td>
+                        <td>@item.Phone.FormatPhone()</td>
+                        <td>@item.Email</td>
+                        <td>
+                            <a href="#" onclick="openDetailModal(@item.Id)" class="text-decoration-none">
+                                @item.Subject
+                            </a>
+                        </td>
+                        <td>@item.MessageDate.ToString("dd.MM.yyyy HH:mm")</td>
+                        <td>
+                            @if (!item.IsRead)
+                            {
+                                <span class="badge bg-danger">Okunmadı</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Okundu</span>
+                            }
+                        </td>
+                        <td>
+                            <form method="post" action="/Admin/Message/ToggleRead" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.Id">
+                                <button type="submit" class="btn btn-sm @(!item.IsRead ? "btn-success" : "btn-outline-secondary")"
+                                        title="@(!item.IsRead ? "Okundu işaretle" : "Okunmadı işaretle")">
+                                    <i class="bi @(!item.IsRead ? "bi-check-circle" : "bi-circle")"></i>
+                                </button>
+                            </form>
+                            <button class="btn btn-sm btn-info" onclick="openDetailModal(@item.Id)"
+                                    title="Detay">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="openDeleteModal(@item.Id)"
+                                    title="Sil">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mesaj Detayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-muted">Ad Soyad</label>
+                        <p id="detailFullName" class="fw-semibold"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted">Telefon</label>
+                        <p id="detailPhone" class="fw-semibold"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted">E-posta</label>
+                        <p id="detailEmail" class="fw-semibold"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-muted">Tarih</label>
+                        <p id="detailDate" class="fw-semibold"></p>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-muted">Konu</label>
+                        <p id="detailSubject" class="fw-semibold"></p>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label text-muted">Mesaj</label>
+                        <div id="detailContent" class="p-3 border rounded"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Mesajı Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu mesajı silmek istediğinize emin misiniz?</p>
+            </div>
+            <form method="post" action="/Admin/Message/Delete">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="deleteId">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Sil
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    new simpleDatatables.DataTable("#messageTable", {
+        searchable: true,
+        fixedHeight: false,
+        perPage: 10,
+        labels: {
+            placeholder: "Ara...",
+            perPage: "{select} kayıt göster",
+            noRows: "Kayıt bulunamadı",
+            info: "{start} - {end} / {rows} kayıt",
+        }
+    });
+
+    // Mesaj verilerini JS'e aktar
+    const messages = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Select(x => new {
+        id = x.Id,
+        fullName = x.FullName,
+        phone = x.Phone,
+        email = x.Email,
+        subject = x.Subject,
+        content = x.Content,
+        date = x.MessageDate.ToString("dd.MM.yyyy HH:mm")
+    })));
+
+   function formatPhone(phone) {
+    if (!phone) return '-';
+    const digits = phone.replace(/\D/g, '');
+    if (digits.length === 11)
+        return `${digits[0]}${digits[1]}${digits[2]}${digits[3]} ${digits[4]}${digits[5]}${digits[6]} ${digits[7]}${digits[8]} ${digits[9]}${digits[10]}`;
+    return phone;
+}
+
+function openDetailModal(id) {
+    const msg = messages.find(x => x.id === id);
+    if (!msg) return;
+
+    document.getElementById('detailFullName').textContent = msg.fullName;
+    document.getElementById('detailPhone').textContent = formatPhone(msg.phone);
+    document.getElementById('detailEmail').textContent = msg.email;
+    document.getElementById('detailSubject').textContent = msg.subject;
+    document.getElementById('detailContent').textContent = msg.content;
+    document.getElementById('detailDate').textContent = msg.date;
+
+    new bootstrap.Modal(document.getElementById('detailModal')).show();
+}
+
+    function openDeleteModal(id) {
+        document.getElementById('deleteId').value = id;
+        new bootstrap.Modal(document.getElementById('deleteModal')).show();
+    }
+</script>
+}
