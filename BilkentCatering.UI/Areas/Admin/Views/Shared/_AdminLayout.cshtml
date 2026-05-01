@@ -213,6 +213,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/Admin/Admin"><span class="nav-icon"><i class="bi bi-person-gear"></i></span><span class="nav-text">Admin Kullanıcıları</span></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/ana-sayfa"><span class="nav-icon"><i class="ph ph-google-chrome-logo"></i></span><span class="nav-text">Siteye Geri Dön</span></a>
+                </li>
             </ul>
         </nav>
 
@@ -318,6 +321,28 @@
                         });
                     });
                 });
+
+                            const currentPath = window.location.pathname; // Mevcut URL yolunu al
+            const sidebarLinks = document.querySelectorAll('#sidebarMenu .nav-link');
+
+            sidebarLinks.forEach(link => {
+                // Eğer linkin href'i mevcut URL ile eşleşiyorsa
+                if (link.getAttribute('href') === currentPath) {
+                    // Linke active klasını ekle
+                    link.classList.add('active');
+        
+                    // Eğer link bir alt menü içindeyse, üst menüleri de aç (open/show)
+                    let parentSubmenu = link.closest('.nav-submenu');
+                    if (parentSubmenu) {
+                        parentSubmenu.classList.add('show'); // Alt menüyü göster[cite: 1]
+                        let parentNavItem = parentSubmenu.closest('.nav-item');
+                        if (parentNavItem) {
+                            parentNavItem.classList.add('open'); // Üst öğeyi "açık" işaretle[cite: 1]
+                            parentNavItem.querySelector('.nav-link').setAttribute('aria-expanded', 'true');
+                        }
+                    }
+                }
+            });
             });
     </script>
 

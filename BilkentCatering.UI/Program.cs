@@ -1,5 +1,6 @@
 using BilkentCatering.DataAccess.Context;
 using BilkentCatering.UI.Extensions;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,10 @@ builder.Services.AddAuthentication("AdminCookie")
         options.ExpireTimeSpan = TimeSpan.FromDays(365);
         options.SlidingExpiration = true;
     });
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "keys")))
+    .SetApplicationName("BilkentCatering");
 
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
