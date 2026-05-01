@@ -51,7 +51,7 @@
 
                 <div class="contact-form-container" data-aos="fade-up" data-aos-delay="400">
                     <h3>Bize Mesaj Gönderin</h3>
-                    <form method="post" action="/Message/Send" class="php-email-form">
+                    <form id="contactForm" method="post" action="/Mesaj/Gonder" class="php-email-form">
                         @Html.AntiForgeryToken()
                         <div class="row">
                             <div class="col-md-12 form-group">
@@ -89,7 +89,7 @@
                         }
 
                         <div class="form-submit mt-3">
-                            <button type="submit">Gönder</button>
+                            <button type="submit" id="submitBtn">Gönder</button>
                         </div>
                     </form>
                 </div>
@@ -107,6 +107,87 @@
     mask: '0000 000 00 00',
     lazy: false,
     placeholderChar: '_'
+    });
+    }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    
+    // Telefon maskesi kodunuz aynen kalabilir
+    const phoneEl = document.getElementById('contactPhone');
+    if (phoneEl) {
+    IMask(phoneEl, {
+    mask: '0000 000 00 00',
+    lazy: false,
+    placeholderChar: '_'
+    });
+    }
+
+    // --- AJAX İLE FORM GÖNDERME İŞLEMİ ---
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+    contactForm.addEventListener('submit', function (e) {
+    e.preventDefault(); // Formun normal şekilde gönderilip sayfayı yenilemesini ENGELLER!
+
+    const submitBtn = document.getElementById('submitBtn');
+    const originalBtnText = submitBtn.innerText;
+            
+    // Kullanıcı butona birden fazla kez tıklamasın diye butonu kilitliyoruz
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Gönderiliyor...";
+
+    // Form verilerini otomatik topla
+    const formData = new FormData(contactForm);
+
+    // Arka planda Controller'a istek at
+    fetch(contactForm.action, {
+    method: 'POST',
+    body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+    if (data.success) {
+    // Başarılıysa SweetAlert göster
+    Swal.fire({
+    icon: 'success',
+    title: 'Harika!',
+    text: data.message,
+    confirmButtonColor: '#28a745',
+    confirmButtonText: 'Tamam'
+    });
+    contactForm.reset(); // Formun içini temizle
+    } else {
+    // Controller'dan hata dönerse
+    Swal.fire({
+    icon: 'error',
+    title: 'Oops...',
+    text: data.message,
+    confirmButtonColor: '#d33',
+    confirmButtonText: 'Tekrar Dene'
+    });
+    }
+    })
+    .catch(error => {
+    // Sunucu çökmesi veya ağ hatası durumunda
+    Swal.fire({
+    icon: 'error',
+    title: 'Bağlantı Hatası',
+    text: 'Sunucu ile iletişim kurulamadı. Lütfen daha sonra tekrar deneyin.',
+    confirmButtonColor: '#d33',
+    confirmButtonText: 'Tamam'
+    });
+    })
+    .finally(() => {
+    // İşlem bitince (başarılı veya başarısız) butonu eski haline getir
+    submitBtn.disabled = false;
+    submitBtn.innerText = originalBtnText;
+    });
     });
     }
     });
