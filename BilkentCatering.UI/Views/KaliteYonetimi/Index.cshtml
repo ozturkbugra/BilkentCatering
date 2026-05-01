@@ -1,0 +1,36 @@
+﻿@model QualityManagement
+@{
+    ViewData["Title"] = "Kalite Yönetimi";
+    Layout = "~/Views/Shared/_WebLayout.cshtml";
+}
+
+@await Component.InvokeAsync("PageTitle", new { @title = "Kalite Yönetimi" })
+
+
+<section id="about" class="about section">
+
+    <div class="container section-title">
+        <h2>Kalite Yönetimi</h2>
+        <p>@Model?.ShortDescription</p>
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 position-relative">
+                <div class="about-img" data-aos="fade-right">
+                    <img src="@Model?.ImageUrl" class="img-fluid" alt="Politikamız">
+                </div>
+            </div>
+
+            <div class="col-lg-6" data-aos="fade-left">
+                <h2 class="display-4 fw-bold mb-4">@Model?.Title</h2>
+                <p class="lead mb-4">
+                    @Html.Raw(Model?.LongDescription)
+                </p>
+
+           
+            </div>
+        </div>
+    </div>
+
+</section>
