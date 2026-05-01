@@ -4,19 +4,10 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>@ViewData["Title"] - Bilkent Kurumsal</title>
-    <meta name="description" content="@ViewBag.SiteSettings?.MetaDescription">
-    <meta name="keywords" content="@ViewBag.SiteSettings?.MetaKeyword">
+    @await Component.InvokeAsync("Seo")
 
-    <!-- Favicons -->
-    @if (ViewBag.SiteSettings?.Icon != null)
-    {
-        <link href="@ViewBag.SiteSettings.Icon" rel="icon">
-    }
-    @if (ViewBag.SiteSettings?.LargeIcon != null)
-    {
-        <link href="@ViewBag.SiteSettings.LargeIcon" rel="apple-touch-icon">
-    }
+
+ 
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect">

@@ -1,0 +1,16 @@
+﻿@model SiteSettings
+
+<title>@ViewData["Title"] - @Model.CompanyName</title>
+<meta name="description" content="@Model.MetaDescription">
+<meta name="keywords" content="@Model.MetaKeyword">
+<meta name="robots" content="index,follow" />
+
+<!-- Favicons -->
+@if (Model?.Icon != null)
+{
+    <link href="@Model.Icon" rel="icon">
+}
+@if (Model?.LargeIcon != null)
+{
+    <link href="@Model.LargeIcon" rel="apple-touch-icon">
+}
