@@ -1,0 +1,219 @@
+﻿@model List<Admin>
+
+@{
+    ViewData["Title"] = "Admin Kullanıcıları";
+    ViewData["Breadcrumb"] = "Admin Kullanıcıları";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header d-flex align-items-center justify-content-between">
+        <h5 class="card-title mb-0">Admin Kullanıcıları</h5>
+        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+            <i class="bi bi-plus-circle me-1"></i>Yeni Admin
+        </button>
+    </div>
+    <div class="card-body">
+        <table id="adminTable" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Ad Soyad</th>
+                    <th>Eklenme Tarihi</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Username</td>
+                        <td>@item.FullName</td>
+                        <td>@item.CreatedDate.ToString("dd.MM.yyyy")</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" onclick="openEditModal(@item.Id)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger" onclick="openDeleteModal(@item.Id)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Yeni Admin Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/Admin/Admin/Add">
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Ad Soyad</label>
+                            <input type="text" name="FullName" class="form-control" placeholder="Ad Soyad" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Kullanıcı Adı</label>
+                            <input type="text" name="Username" class="form-control" placeholder="Kullanıcı adı" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Şifre</label>
+                            <div class="input-group">
+                                <input type="password" name="Password" id="addPassword" class="form-control" placeholder="Şifre" required>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('addPassword', 'addPasswordIcon')">
+                                    <i id="addPasswordIcon" class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Kaydet
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Admin Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="post" action="/Admin/Admin/Edit">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="Id" id="editId">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <label class="form-label">Ad Soyad</label>
+                            <input type="text" name="FullName" id="editFullName" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Kullanıcı Adı</label>
+                            <input type="text" name="Username" id="editUsername" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Yeni Şifre</label>
+                            <div class="input-group">
+                                <input type="password" name="newPassword" id="editPassword" class="form-control"
+                                       placeholder="Boş bırakırsanız şifre değişmez">
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('editPassword', 'editPasswordIcon')">
+                                    <i id="editPasswordIcon" class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Şifreyi değiştirmek istemiyorsanız boş bırakın.</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-1"></i>Güncelle
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Admin Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu admin kullanıcısını silmek istediğinize emin misiniz?</p>
+            </div>
+            <form method="post" action="/Admin/Admin/Delete">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" id="deleteId">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash me-1"></i>Sil
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        new simpleDatatables.DataTable("#adminTable", {
+            searchable: true,
+            fixedHeight: false,
+            perPage: 10,
+            labels: {
+                placeholder: "Ara...",
+                perPage: "{select} kayıt göster",
+                noRows: "Kayıt bulunamadı",
+                info: "{start} - {end} / {rows} kayıt",
+            }
+        });
+
+        function togglePassword(inputId, iconId) {
+            const input = document.getElementById(inputId);
+            const icon = document.getElementById(iconId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.replace('bi-eye', 'bi-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.replace('bi-eye-slash', 'bi-eye');
+            }
+        }
+
+        function openEditModal(id) {
+            fetch(`/Admin/Admin/GetById?id=${id}`)
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('editId').value = data.id;
+                    document.getElementById('editFullName').value = data.fullName;
+                    document.getElementById('editUsername').value = data.username;
+                    document.getElementById('editPassword').value = '';
+                    new bootstrap.Modal(document.getElementById('editModal')).show();
+                });
+        }
+
+        function openDeleteModal(id) {
+            document.getElementById('deleteId').value = id;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
+    </script>
+}
