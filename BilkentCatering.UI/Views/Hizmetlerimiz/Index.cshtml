@@ -1,0 +1,8 @@
+﻿@{
+    ViewData["Title"] = "Hizmetlerimiz";
+    Layout = "~/Views/Shared/_WebLayout.cshtml";
+}
+
+@await Component.InvokeAsync("PageTitle", new { @title = "Hizmetlerimiz" })
+
+@await Component.InvokeAsync("Services")
