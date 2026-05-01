@@ -46,6 +46,7 @@ namespace BilkentCatering.Business.Concrete
             existing.IsLogoVisible = entity.IsLogoVisible;
             existing.IsCompanyNameVisible = entity.IsCompanyNameVisible;
             existing.UpdatedDate = DateTime.Now;
+            existing.PageTitleImage = entity.PageTitleImage;
 
             _siteSettingsRepository.Update(existing);
             _siteSettingsRepository.Save();

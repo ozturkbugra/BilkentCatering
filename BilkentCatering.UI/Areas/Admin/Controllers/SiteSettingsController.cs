@@ -30,7 +30,7 @@ namespace BilkentCatering.UI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Save(SiteSettings model, IFormFile? logoFile, IFormFile? iconFile, IFormFile? largeIconFile)
+        public IActionResult Save(SiteSettings model, IFormFile? logoFile, IFormFile? iconFile, IFormFile? largeIconFile, IFormFile? pageTitleImageFile)
         {
             var existing = _siteSettingsService.GetSingle();
 
@@ -62,6 +62,16 @@ namespace BilkentCatering.UI.Areas.Admin.Controllers
             else
             {
                 model.LargeIcon = existing?.LargeIcon;
+            }
+
+            if (pageTitleImageFile != null)
+            {
+                if (existing != null) _fileUploadService.DeleteFile(existing.PageTitleImage);
+                model.PageTitleImage = _fileUploadService.UploadImage(pageTitleImageFile);
+            }
+            else
+            {
+                model.PageTitleImage = existing?.PageTitleImage;
             }
 
             ServiceResult result;

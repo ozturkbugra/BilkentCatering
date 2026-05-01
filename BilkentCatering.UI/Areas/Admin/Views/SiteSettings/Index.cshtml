@@ -136,6 +136,25 @@
                     </div>
                 </div>
 
+                <!-- Page Title Arka Plan Resmi -->
+                <div class="col-md-12">
+                    <label class="form-label">Sayfa Başlığı Arka Plan Resmi</label>
+                    <div class="upload-dropzone upload-dropzone-image" id="pageTitleDropzone">
+                        <input type="file" name="pageTitleImageFile" id="pageTitleImageFile" accept="image/*" hidden>
+                        <div class="upload-dropzone-content">
+                            <div class="upload-dropzone-icon"><i class="bi bi-image"></i></div>
+                            <h5 class="upload-dropzone-title">Resim yükle</h5>
+                            <p class="upload-dropzone-text">PNG, JPG, WebP</p>
+                        </div>
+                    </div>
+                    <div class="upload-image-preview mt-2" id="pageTitlePreview">
+                        @if (Model?.PageTitleImage != null)
+                        {
+                            <img src="@Model.PageTitleImage" alt="Page Title" class="img-thumbnail" style="height:80px;">
+                        }
+                    </div>
+                </div>
+
                 <!-- Logo Görünsün mü -->
                 <div class="col-md-6">
                     <div class="form-check form-switch">
@@ -213,5 +232,7 @@
         setupDropzone('logoDropzone', 'logoFile', 'logoPreview');
         setupDropzone('iconDropzone', 'iconFile', 'iconPreview');
         setupDropzone('largeIconDropzone', 'largeIconFile', 'largeIconPreview');
+        setupDropzone('pageTitleDropzone', 'pageTitleImageFile', 'pageTitlePreview');
+
     </script>
 }

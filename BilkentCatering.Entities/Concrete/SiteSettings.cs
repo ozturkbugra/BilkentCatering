@@ -15,5 +15,7 @@ namespace BilkentCatering.Entities.Concrete
         public string MetaKeyword { get; set; }
         public bool IsLogoVisible { get; set; }
         public bool IsCompanyNameVisible { get; set; }
+        public string? PageTitleImage { get; set; }
+
     }
 }
