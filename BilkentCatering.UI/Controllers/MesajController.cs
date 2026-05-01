@@ -19,6 +19,14 @@ namespace BilkentCatering.UI.Controllers
         {
             if (ModelState.IsValid)
             {
+                string honeypot = Request.Form["WebsiteUrl"];
+                if (!string.IsNullOrEmpty(honeypot))
+                {
+                    // Bot yakalandı!
+                    // Bota hata döndürmüyoruz ki anladığımızı çakmasın. "Başarılı" dönüyoruz ama veritabanına KAYDETMİYORUZ.
+                    return Json(new { success = true, message = "Mesajınız başarıyla iletildi. En kısa sürede size dönüş yapacağız." });
+                }
+
                 var result = _messageService.Add(message);
 
                 if (result != null)
