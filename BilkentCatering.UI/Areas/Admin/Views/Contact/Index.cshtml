@@ -1,0 +1,125 @@
+﻿@model Contact
+
+@{
+    ViewData["Title"] = "İletişim Bilgileri";
+    ViewData["Breadcrumb"] = "İletişim Bilgileri";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">İletişim Bilgileri</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/Admin/Contact/Save">
+            @Html.AntiForgeryToken()
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-telephone me-1"></i>Telefon
+                    </label>
+                    <input type="text" name="Phone" id="phoneInput" class="form-control"
+                           value="@Model?.Phone" placeholder="0555 555 55 55">
+                    <div class="form-text">Veritabanında birleşik saklanır: 05555555555</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-envelope me-1"></i>E-posta
+                    </label>
+                    <input type="email" name="Email" class="form-control"
+                           value="@Model?.Email" placeholder="info@bilkentcatering.com">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-whatsapp me-1"></i>WhatsApp
+                    </label>
+                    <input type="text" name="WhatsApp" id="whatsappInput" class="form-control"
+                           value="@Model?.WhatsApp" placeholder="0555 555 55 55">
+                    <div class="form-text">Veritabanında birleşik saklanır: 05555555555</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-instagram me-1"></i>Instagram
+                    </label>
+                    <input type="text" name="Instagram" class="form-control"
+                           value="@Model?.Instagram" placeholder="https://instagram.com/...">
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">
+                        <i class="bi bi-geo-alt me-1"></i>Adres
+                    </label>
+                    <textarea name="Address" class="form-control" rows="2"
+                              placeholder="Adres girin">@Model?.Address</textarea>
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">
+                        <i class="bi bi-map me-1"></i>Google Maps Link
+                    </label>
+                    <input type="text" name="MapLink" class="form-control"
+                           value="@Model?.MapLink" placeholder="https://www.google.com/maps/embed?...">
+                    <div class="form-text">Google Maps'te konumu bulun, paylaş → embed linkini kopyalayın.</div>
+                </div>
+
+                @if (Model?.MapLink != null)
+                {
+                    <div class="col-12">
+                        <label class="form-label">Harita Önizleme</label>
+                        <div class="ratio ratio-16x9">
+                            <iframe src="@Model.MapLink" allowfullscreen class="rounded"></iframe>
+                        </div>
+                    </div>
+                }
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Kaydet
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://unpkg.com/imask"></script>
+    <script>
+        const phoneMask = IMask(document.getElementById('phoneInput'), {
+        mask: '0000 000 00 00',
+        lazy: false,
+        placeholderChar: '_'
+        });
+
+        const whatsappMask = IMask(document.getElementById('whatsappInput'), {
+        mask: '0000 000 00 00',
+        lazy: false,
+        placeholderChar: '_'
+        });
+
+        // Form gönderilmeden önce maskeyi kaldır, birleşik gönder
+        document.querySelector('form').addEventListener('submit', function () {
+        document.getElementById('phoneInput').value = phoneMask.unmaskedValue;
+        document.getElementById('whatsappInput').value = whatsappMask.unmaskedValue;
+        });
+    </script>
+}
