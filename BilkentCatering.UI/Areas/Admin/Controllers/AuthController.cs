@@ -26,7 +26,7 @@ namespace BilkentCatering.UI.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string username, string password)
+        public async Task<IActionResult> Login(string username, string password, bool rememberMe)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
@@ -37,33 +37,38 @@ namespace BilkentCatering.UI.Areas.Admin.Controllers
             var admin = _adminService.GetAll()
                 .FirstOrDefault(x => x.Username.ToLower() == username.ToLower() && !x.IsDeleted);
 
-            if (admin == null)
-            {
-                ViewData["Error"] = "Kullanıcı adı veya şifre hatalı.";
-                return View();
-            }
-
-            if (!BCrypt.Net.BCrypt.Verify(password, admin.Password))
+            if (admin == null || !BCrypt.Net.BCrypt.Verify(password, admin.Password))
             {
                 ViewData["Error"] = "Kullanıcı adı veya şifre hatalı.";
                 return View();
             }
 
             var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, admin.FullName),
-                new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()),
-                new Claim("Username", admin.Username)
-            };
+    {
+        new Claim(ClaimTypes.Name, admin.FullName),
+        new Claim(ClaimTypes.NameIdentifier, admin.Id.ToString()),
+        new Claim("Username", admin.Username)
+    };
 
             var identity = new ClaimsIdentity(claims, "AdminCookie");
             var principal = new ClaimsPrincipal(identity);
 
-            await HttpContext.SignInAsync("AdminCookie", principal);
+            // --- DİNAMİK SÜRE AYARI BURADA YAPILIYOR ---
+            var authProperties = new AuthenticationProperties
+            {
+                // IsPersistent: true olursa tarayıcı kapansa bile cookie silinmez.
+                IsPersistent = rememberMe,
+
+                // Hatırla seçildiyse 30 gün, seçilmediyse 1 gün
+                ExpiresUtc = rememberMe
+                    ? DateTimeOffset.UtcNow.AddMonths(1)
+                    : DateTimeOffset.UtcNow.AddDays(1)
+            };
+
+            await HttpContext.SignInAsync("AdminCookie", principal, authProperties);
 
             return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
         }
-
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync("AdminCookie");

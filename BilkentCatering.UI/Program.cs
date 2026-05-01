@@ -13,7 +13,7 @@ builder.Services.AddAuthentication("AdminCookie")
         options.LoginPath = "/Admin/Auth/Login";
         options.LogoutPath = "/Admin/Auth/Logout";
         options.AccessDeniedPath = "/Admin/Auth/Login";
-        options.ExpireTimeSpan = TimeSpan.FromHours(8);
+        options.ExpireTimeSpan = TimeSpan.FromDays(365);
         options.SlidingExpiration = true;
     });
 
