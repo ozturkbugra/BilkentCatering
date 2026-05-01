@@ -1,0 +1,94 @@
+﻿@model BilkentCatering.Entities.Concrete.IntroductionVideo
+
+@{
+    ViewData["Title"] = "Tanıtım Filmi";
+    ViewData["Breadcrumb"] = "Tanıtım Filmi";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Tanıtım Filmi</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/Admin/IntroductionVideo/Save">
+            @Html.AntiForgeryToken()
+            <div class="row g-4">
+
+                <div class="col-12">
+                    <label class="form-label">Açıklama</label>
+                    <textarea name="Description" class="form-control" rows="3"
+                              placeholder="Video açıklaması girin">@Model?.Description</textarea>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label">YouTube Video ID</label>
+                    <input type="text" name="VideoUrl" id="videoUrl" class="form-control"
+                           value="@Model?.VideoUrl"
+                           placeholder="Örn: DrXAkOS7fZs">
+                    <div class="form-text">
+                        YouTube video linkindeki ID'yi girin.
+                        <br>Örnek: youtube.com/watch?v=<strong>DrXAkOS7fZs</strong> → <code>DrXAkOS7fZs</code>
+                    </div>
+                </div>
+
+                @if (Model?.VideoUrl != null)
+                {
+                    <div class="col-12">
+                        <label class="form-label">Mevcut Video Önizleme</label>
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube-nocookie.com/embed/@Model.VideoUrl?rel=0&modestbranding=1"
+                                    allowfullscreen class="rounded"></iframe>
+                        </div>
+                    </div>
+                }
+
+                <div class="col-12" id="previewContainer" style="display:none;">
+                    <label class="form-label">Önizleme</label>
+                    <div class="ratio ratio-16x9">
+                        <iframe id="videoPreview" allowfullscreen class="rounded"></iframe>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Kaydet
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+               document.getElementById('videoUrl').addEventListener('input', function () {
+            const id = this.value.trim();
+            const preview = document.getElementById('videoPreview');
+            const container = document.getElementById('previewContainer');
+
+            if (id.length > 5) {
+                preview.src = `https://www.youtube-nocookie.com/embed/${id}?rel=0&modestbranding=1`;
+                container.style.display = 'block';
+            } else {
+                container.style.display = 'none';
+                preview.src = '';
+            }
+        });
+    </script>
+}
