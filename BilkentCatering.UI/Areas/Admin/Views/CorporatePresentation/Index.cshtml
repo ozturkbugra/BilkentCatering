@@ -1,0 +1,101 @@
+﻿@model CorporatePresentation
+
+@{
+    ViewData["Title"] = "Kurumsal Sunum";
+    ViewData["Breadcrumb"] = "Kurumsal Sunum";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show">
+        <i class="bi bi-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show">
+        <i class="bi bi-exclamation-triangle me-2"></i> @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Kurumsal Sunum</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/Admin/CorporatePresentation/Save" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <div class="row g-4">
+
+                @if (Model?.PdfLink != null)
+                {
+                    <div class="col-12">
+                        <div class="d-flex align-items-center gap-3 p-3 border rounded">
+                            <i class="bi bi-file-earmark-pdf text-danger fs-2"></i>
+                            <div>
+                                <p class="mb-1 fw-semibold">Mevcut PDF</p>
+                                <a href="@Model.PdfLink" target="_blank" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-eye me-1"></i>Görüntüle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="col-12">
+                    <label class="form-label">
+                        @(Model?.PdfLink != null ? "Yeni PDF Yükle (Mevcut PDF'in üzerine yazar)" : "PDF Yükle")
+                    </label>
+                    <div class="upload-dropzone" id="pdfDropzone">
+                        <input type="file" name="pdfFile" id="pdfFile" accept=".pdf" hidden>
+                        <div class="upload-dropzone-content">
+                            <div class="upload-dropzone-icon"><i class="bi bi-file-earmark-pdf"></i></div>
+                            <h5 class="upload-dropzone-title">PDF yükle</h5>
+                            <p class="upload-dropzone-text">Sadece PDF formatı</p>
+                        </div>
+                    </div>
+                    <div class="mt-2" id="pdfPreview"></div>
+                </div>
+
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save me-2"></i>Kaydet
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const dropzone = document.getElementById('pdfDropzone');
+        const input = document.getElementById('pdfFile');
+        const preview = document.getElementById('pdfPreview');
+
+        dropzone.onclick = () => input.click();
+        dropzone.ondragover = (e) => { e.preventDefault(); dropzone.classList.add('dragover'); };
+        dropzone.ondragleave = () => dropzone.classList.remove('dragover');
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                input.files = e.dataTransfer.files;
+                showPdfPreview(file);
+            }
+        };
+        input.onchange = () => { if (input.files[0]) showPdfPreview(input.files[0]); };
+
+        function showPdfPreview(file) {
+            preview.innerHTML = `
+                <div class="d-flex align-items-center gap-2 p-2 border rounded">
+                    <i class="bi bi-file-earmark-pdf text-danger fs-4"></i>
+                    <span>${file.name}</span>
+                </div>`;
+        }
+    </script>
+}
