@@ -1,0 +1,64 @@
+﻿@using BilkentCatering.Entities.Concrete
+
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container position-relative d-flex align-items-center justify-content-between">
+
+        <a href="/" class="logo d-flex align-items-center me-auto me-xl-0">
+            @if (ViewBag.SiteSettings?.IsLogoVisible == true && ViewBag.SiteSettings?.Logo != null)
+            {
+                <img src="@ViewBag.SiteSettings.Logo" alt="@ViewBag.SiteSettings?.CompanyName">
+            }
+            @if (ViewBag.SiteSettings?.IsCompanyNameVisible == true)
+            {
+                <h1 class="sitename">@ViewBag.SiteSettings?.CompanyName</h1>
+            }
+        </a>
+
+        <nav id="navmenu" class="navmenu">
+            <ul>
+                <li><a href="/">Anasayfa</a></li>
+
+                <li class="dropdown">
+                    <a href="#"><span>Kurumsal</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="/AboutUs">Hakkımızda</a></li>
+                        <li><a href="/Policy">Politikamız</a></li>
+                        <li><a href="/CertificateAndDocument">Belgeler & Sertifikalar</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="/Services">Hizmetlerimiz</a></li>
+
+                <li class="dropdown">
+                    <a href="#"><span>Kalite</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="/QualityManagement">Kalite Yönetimi</a></li>
+                        <li><a href="/CustomerSatisfaction">Müşteri Memnuniyeti</a></li>
+                    </ul>
+                </li>
+
+                <li class="dropdown">
+                    <a href="#"><span>Medya</span> <i class="bi bi-chevron-down toggle-dropdown"></i></a>
+                    <ul>
+                        <li><a href="/CorporatePresentation">Kurumsal Sunum</a></li>
+                        <li><a href="/IntroductionVideo">Tanıtım Filmi</a></li>
+                    </ul>
+                </li>
+
+                <li><a href="/JobApplication">İş Başvurusu</a></li>
+                <li><a href="/Contact">İletişim</a></li>
+            </ul>
+            <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        </nav>
+
+        @if (ViewBag.Contact?.WhatsApp != null)
+        {
+            <a class="cta-btn d-flex align-items-center"
+                   href="https://wa.me/@ViewBag.Contact.WhatsApp" target="_blank"
+                   style="background-color: #25D366; color: white; border: none;">
+                <i class="bi bi-whatsapp me-2"></i> WhatsApp
+            </a>
+        }
+
+    </div>
+</header>

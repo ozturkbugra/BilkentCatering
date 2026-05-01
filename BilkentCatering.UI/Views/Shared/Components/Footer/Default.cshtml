@@ -1,0 +1,112 @@
+﻿@using BilkentCatering.Entities.Concrete
+
+<footer id="footer" class="footer dark-background">
+    <div class="container">
+        <div class="row gy-5">
+
+            <div class="col-lg-5">
+                <div class="footer-content">
+                    <a href="/" class="logo d-flex align-items-center mb-4">
+                        @if (ViewBag.SiteSettings?.Logo != null)
+                        {
+                            <img src="@ViewBag.SiteSettings.Logo" alt="@ViewBag.SiteSettings?.CompanyName" height="40">
+                        }
+                        <span class="sitename ms-2">@ViewBag.SiteSettings?.CompanyName</span>
+                    </a>
+                    <p class="mb-4">@ViewBag.SiteSettings?.Description</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-6">
+                <div class="footer-links">
+                    <h4>Hızlı Linkler</h4>
+                    <ul>
+                        <li><a href="/"><i class="bi bi-chevron-right"></i> Anasayfa</a></li>
+                        <li><a href="/AboutUs"><i class="bi bi-chevron-right"></i> Hakkımızda</a></li>
+                        <li><a href="/Services"><i class="bi bi-chevron-right"></i> Hizmetlerimiz</a></li>
+                        <li><a href="/Contact"><i class="bi bi-chevron-right"></i> İletişim</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="footer-contact">
+                    <h4>İletişim Bilgileri</h4>
+
+                    @if (ViewBag.Contact?.Address != null)
+                    {
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-geo-alt"></i></div>
+                            <div class="contact-info">
+                                <p>@ViewBag.Contact.Address</p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (ViewBag.Contact?.Phone != null)
+                    {
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-telephone"></i></div>
+                            <div class="contact-info">
+                                <p>@((ViewBag.Contact.Phone as string).FormatPhone())</p>
+                            </div>
+                        </div>
+                    }
+
+                    @if (ViewBag.Contact?.Email != null)
+                    {
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-envelope"></i></div>
+                            <div class="contact-info">
+                                <p>@ViewBag.Contact.Email</p>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="social-links mt-4">
+                        @if (ViewBag.Contact?.Instagram != null)
+                        {
+                            <a href="@ViewBag.Contact.Instagram" target="_blank">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                        }
+                        @if (ViewBag.Contact?.WhatsApp != null)
+                        {
+                            <a href="https://wa.me/@ViewBag.Contact.WhatsApp" target="_blank">
+                                <i class="bi bi-whatsapp"></i>
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 text-center">
+                    <div class="copyright">
+                        <p>
+                            © <span>Telif Hakkı</span>
+                            <strong class="px-1 sitename">@ViewBag.SiteSettings?.CompanyName</strong>
+                            <span>Tüm Hakları Saklıdır.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center">
+    <i class="bi bi-arrow-up-short"></i>
+</a>
+
+<div id="preloader">
+    @if (ViewBag.SiteSettings?.Logo != null)
+    {
+        <img src="@ViewBag.SiteSettings.Logo" alt="Yükleniyor..." class="preloader-logo">
+    }
+</div>

@@ -1,8 +1,124 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Ana Sayfa";
+    ViewData["BodyClass"] = "index-page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<!-- Hero -->
+<section id="hero" class="hero section dark-background">
+    <div class="info d-flex align-items-center">
+        <div class="container">
+            <div class="row justify-content-center" data-aos="fade-up" data-aos-delay="100">
+                <div class="col-lg-8 text-center">
+                    <h2>@ViewBag.SiteSettings?.Slogan</h2>
+                    <p>@ViewBag.SiteSettings?.Description</p>
+                    <a href="#portfolio" class="btn-get-started">Hizmetlerimizi İnceleyin</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+        @{
+            bool isFirst = true;
+            foreach (var image in ViewBag.SiteImages ?? new List<BilkentCatering.Entities.Concrete.SiteImage>())
+            {
+                <div class="carousel-item @(isFirst ? "active" : "")">
+                    <img src="@image.ImageUrl" alt="Slider">
+                </div>
+                isFirst = false;
+            }
+        }
+        <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
+        </a>
+        <a class="carousel-control-next" href="#hero-carousel" role="button" data-bs-slide="next">
+            <span class="carousel-control-next-icon bi bi-chevron-right" aria-hidden="true"></span>
+        </a>
+    </div>
+</section>
+
+@await Component.InvokeAsync("Services")
+@await Component.InvokeAsync("AboutUs")
+@await Component.InvokeAsync("Counter")
+
+<section id="call-to-action" class="call-to-action section dark-background">
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-5" data-aos="fade-right" data-aos-delay="200">
+                <div class="cta-content">
+                    <div class="badge mb-3">
+                        Bilkent Kurumsal'ın sizlerle paylaşmaktan gurur duyduğu gerçekleri var!
+                    </div>
+
+                    <div class="features-list mt-4">
+                        <div class="feature-item mb-3">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span class="fw-bold">KURUMSAL YÖNETİM ANLAYIŞI</span>
+                        </div>
+                        <div class="feature-item mb-3">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span class="fw-bold">GÜÇLÜ LOJİSTİK AĞ</span>
+                        </div>
+                        <div class="feature-item mb-3">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span class="fw-bold">SÜRDÜRÜLEBİLİR KALİTE</span>
+                        </div>
+                        <div class="feature-item mb-3">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span class="fw-bold">MÜŞTERİ ODAKLI YAKLAŞIM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-7 ps-lg-5" data-aos="fade-left" data-aos-delay="300">
+                <h2 class="display-5 fw-bold mb-4">ULUSLARARASI STANDARTLARDA KALİTE</h2>
+                <p class="lead mb-4">
+                    Müşterilerimize hizmet vermenin verdiği sorumlulukla şirket politikamız kapsamında fabrikalarımızda ve
+                    bağlı bulunduğu uydu mutfaklarında hizmet kalitemizi sürekli iyileştiriyor ve uluslararası standartlarda
+                    hizmet veriyoruz.
+                </p>
+
+                <div class="row gy-3">
+                    <div class="col-md-6">
+                        <div class="feature-item">
+                            <i class="bi bi-patch-check"></i>
+                            <span>Kalite Yönetim Sistemi</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-item">
+                            <i class="bi bi-patch-check"></i>
+                            <span>Gıda Güvenliği Yönetim Sistemi</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-item">
+                            <i class="bi bi-patch-check"></i>
+                            <span>Çevre Yönetim Sistemi</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="feature-item">
+                            <i class="bi bi-patch-check"></i>
+                            <span>İş Sağlığı ve Güvenliği</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cta-buttons mt-5">
+                    <a href="#contact" class="btn btn-primary">Detaylı Bilgi Alın</a>
+                    <a href="#portfolio" class="btn btn-outline">Hizmetlerimiz</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+@await Component.InvokeAsync("Contact")

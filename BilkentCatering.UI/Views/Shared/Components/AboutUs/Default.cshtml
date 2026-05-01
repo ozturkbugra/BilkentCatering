@@ -1,0 +1,28 @@
+﻿@model AboutUs
+
+<section id="about" class="about section light-background">
+    <div class="container section-title">
+        <h2>Hakkımızda</h2>
+        <p>Gıda sektöründeki yılların getirdiği tecrübe ile kurumsal çözümler sunuyoruz.</p>
+    </div>
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row g-5 align-items-center">
+            <div class="col-lg-6 position-relative">
+                <div class="about-img" data-aos="fade-right">
+                    <img src="@Model?.ImageUrl" class="img-fluid" alt="Hakkımızda">
+                </div>
+                @if (Model?.ExperienceYear != null && Model.ExperienceYear > 0)
+                {
+                    <div class="experience-badge" data-aos="fade-up">
+                        <h2>@Model.ExperienceYear+</h2>
+                        <p>Yıllık<br>Tecrübe</p>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h2 class="display-4 fw-bold mb-4">@Model?.Title</h2>
+                <p class="lead mb-4">@Html.Raw(Model?.Description)</p>
+            </div>
+        </div>
+    </div>
+</section>

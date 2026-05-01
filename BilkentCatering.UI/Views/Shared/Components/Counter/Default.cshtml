@@ -1,0 +1,48 @@
+﻿@model BilkentCatering.Entities.Concrete.Counter
+
+<section id="stats-counter" class="stats-counter section">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+        <div class="row gy-4">
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="stats-item d-flex flex-column align-items-center p-4"
+                     style="background:#fff;border-radius:10px;box-shadow:0 5px 25px rgba(0,0,0,0.05);">
+                    <i class="bi bi-geo-alt mb-3" style="font-size:2.5rem;color:var(--accent-color);"></i>
+                    <span data-purecounter-start="0"
+                          data-purecounter-end="@Model?.CityCount"
+                          data-purecounter-duration="1"
+                          class="purecounter display-5 fw-bold"></span>
+                    <p class="text-muted fw-medium mt-2 text-center text-uppercase" style="font-size:0.85rem;">ŞEHİR</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="stats-item d-flex flex-column align-items-center p-4"
+                     style="background:#fff;border-radius:10px;box-shadow:0 5px 25px rgba(0,0,0,0.05);">
+                    <i class="bi bi-journal-check mb-3" style="font-size:2.5rem;color:var(--accent-color);"></i>
+                    <span data-purecounter-start="0"
+                          data-purecounter-end="@Model?.DailyProductionCount"
+                          data-purecounter-duration="1"
+                          class="purecounter display-5 fw-bold"></span>
+                    <p class="text-muted fw-medium mt-2 text-center text-uppercase" style="font-size:0.85rem;">GÜNLÜK ÜRETİM</p>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="stats-item d-flex flex-column align-items-center p-4"
+                     style="background:#fff;border-radius:10px;box-shadow:0 5px 25px rgba(0,0,0,0.05);">
+                    <i class="bi bi-shield-check mb-3" style="font-size:2.5rem;color:var(--accent-color);"></i>
+                    <div class="d-flex align-items-center">
+                        <span data-purecounter-start="0"
+                              data-purecounter-end="@Model?.SafetyRate"
+                              data-purecounter-duration="1"
+                              class="purecounter display-5 fw-bold"></span>
+                        <span class="display-5 fw-bold">%</span>
+                    </div>
+                    <p class="text-muted fw-medium mt-2 text-center text-uppercase" style="font-size:0.85rem;">GIDA GÜVENLİĞİ</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
