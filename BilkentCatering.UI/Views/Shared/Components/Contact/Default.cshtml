@@ -1,21 +1,18 @@
 ﻿@using BilkentCatering.UI.Extensions
-@model BilkentCatering.Entities.Concrete.Contact
+@model Contact
 
 <section id="contact" class="contact section">
     <div class="container section-title">
         <h2>İLETİŞİM</h2>
         <p>Bize ulaşın, kurumunuza özel yemek çözümlerimizi birlikte planlayalım.</p>
     </div>
+
     <div class="container" data-aos="fade-up" data-aos-delay="100">
         <div class="contact-main-wrapper">
-            <div class="map-wrapper">
-                @if (Model?.MapLink != null)
-                {
-                    <iframe src="@Model.MapLink" width="100%" height="100%"
-                            style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                }
-            </div>
-            <div class="contact-content">
+            <!-- Harita kaldırıldı, form ve kartlar max-width ve margin: 0 auto ile ortalandı -->
+            <div class="contact-content" style="max-width: 850px; margin: 0 auto; width: 100%;">
+
+                <!-- İletişim Bilgi Kartları -->
                 <div class="contact-cards-container" data-aos="fade-up" data-aos-delay="300">
                     @if (Model?.Address != null)
                     {
@@ -49,6 +46,7 @@
                     }
                 </div>
 
+                <!-- İletişim Formu -->
                 <div class="contact-form-container" data-aos="fade-up" data-aos-delay="400">
                     <h3>Bize Mesaj Gönderin</h3>
                     <form id="contactForm" method="post" action="/Mesaj/Gonder" class="php-email-form">
@@ -59,10 +57,13 @@
                                 <input type="text" name="FullName" class="form-control" required>
                             </div>
                         </div>
+
+                        <!-- Honeypot (Spam Bot Koruması) -->
                         <div style="display:none; visibility:hidden;">
                             <label for="WebsiteUrl">Lütfen bu alanı boş bırakın</label>
                             <input type="text" name="WebsiteUrl" id="WebsiteUrl" tabindex="-1" autocomplete="off">
                         </div>
+
                         <div class="row mt-3">
                             <div class="col-md-6 form-group">
                                 <label>Telefon Numaranız</label>
@@ -97,32 +98,20 @@
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
 </section>
 
+<!-- Scriptler -->
 <script src="https://unpkg.com/imask"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-    const phoneEl = document.getElementById('contactPhone');
-    if (phoneEl) {
-    IMask(phoneEl, {
-    mask: '0000 000 00 00',
-    lazy: false,
-    placeholderChar: '_'
-    });
-    }
-    });
-</script>
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    
-    // Telefon maskesi kodunuz aynen kalabilir
+
+    // --- TELEFON MASKESİ (IMask) ---
     const phoneEl = document.getElementById('contactPhone');
     if (phoneEl) {
     IMask(phoneEl, {
@@ -134,22 +123,21 @@
 
     // --- AJAX İLE FORM GÖNDERME İŞLEMİ ---
     const contactForm = document.getElementById('contactForm');
-    
+
     if (contactForm) {
     contactForm.addEventListener('submit', function (e) {
-    e.preventDefault(); // Formun normal şekilde gönderilip sayfayı yenilemesini ENGELLER!
+    e.preventDefault(); // Sayfanın yenilenmesini engeller
 
     const submitBtn = document.getElementById('submitBtn');
     const originalBtnText = submitBtn.innerText;
-            
-    // Kullanıcı butona birden fazla kez tıklamasın diye butonu kilitliyoruz
+
+    // Çift tıklamayı engellemek için butonu kilitle
     submitBtn.disabled = true;
     submitBtn.innerText = "Gönderiliyor...";
 
-    // Form verilerini otomatik topla
     const formData = new FormData(contactForm);
 
-    // Arka planda Controller'a istek at
+    // Controller'a istek at
     fetch(contactForm.action, {
     method: 'POST',
     body: formData
@@ -157,7 +145,6 @@
     .then(response => response.json())
     .then(data => {
     if (data.success) {
-    // Başarılıysa SweetAlert göster
     Swal.fire({
     icon: 'success',
     title: 'Harika!',
@@ -165,9 +152,8 @@
     confirmButtonColor: '#28a745',
     confirmButtonText: 'Tamam'
     });
-    contactForm.reset(); // Formun içini temizle
+    contactForm.reset(); // Formu temizle
     } else {
-    // Controller'dan hata dönerse
     Swal.fire({
     icon: 'error',
     title: 'Oops...',
@@ -178,7 +164,6 @@
     }
     })
     .catch(error => {
-    // Sunucu çökmesi veya ağ hatası durumunda
     Swal.fire({
     icon: 'error',
     title: 'Bağlantı Hatası',
@@ -188,7 +173,7 @@
     });
     })
     .finally(() => {
-    // İşlem bitince (başarılı veya başarısız) butonu eski haline getir
+    // İşlem bitince butonu eski haline getir
     submitBtn.disabled = false;
     submitBtn.innerText = originalBtnText;
     });

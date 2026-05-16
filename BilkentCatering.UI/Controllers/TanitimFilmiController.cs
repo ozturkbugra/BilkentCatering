@@ -12,7 +12,7 @@ namespace BilkentCatering.UI.Controllers
             _introductionVideoService = introductionVideoService;
         }
 
-        [Route("tanitim-filmi")]
+      /*  [Route("tanitim-filmi")]
         public IActionResult Index()
         {
             ViewData["Title"] = "Tanıtım Filmi";
@@ -21,6 +21,6 @@ namespace BilkentCatering.UI.Controllers
             var model = _introductionVideoService.GetSingle();
 
             return View(model);
-        }
+        }*/
     }
 }
